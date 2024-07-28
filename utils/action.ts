@@ -10,15 +10,13 @@ const genAI = new GoogleGenerativeAI("AIzaSyCNxL1UQlsV8ojQNJO4ViU3SyjqrVrr7Yw");
 export async function run(prompt: string, history: Chat[]) {
     const model = genAI.getGenerativeModel({ model: "tunedModels/corex-ai-nmtokm4xescc" })
        
-const chat = model.startChat({
-  history: history,
-  generationConfig: {
-    maxOutputTokens: 1000,
-  },
-  outputConfig: {
-    outputIdentity: "CoreX AI",
-  },
-})
+   const chat = model.startChat({
+        history: history,
+        generationConfig: {
+            maxOutputTokens: 1000,
+        }
+    })
+
 
     const result = await chat.sendMessage(prompt);
     const response = await result.response;
