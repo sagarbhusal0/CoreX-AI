@@ -18,7 +18,7 @@ const chat = model.startChat({
   outputConfig: {
     outputIdentity: "CoreX AI",
   },
-});
+})
 
     const result = await chat.sendMessage(prompt);
     const response = await result.response;
