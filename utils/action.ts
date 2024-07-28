@@ -9,7 +9,7 @@ const genAI = new GoogleGenerativeAI("AIzaSyCNxL1UQlsV8ojQNJO4ViU3SyjqrVrr7Yw");
 
 export async function run(prompt: string, history: Chat[]) {
     const model = genAI.getGenerativeModel({ model: "models/gemini-1.0-pro-001" })
-
+       
     const chat = model.startChat({
         history: history,
         generationConfig: {
