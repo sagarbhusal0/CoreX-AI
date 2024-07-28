@@ -5,10 +5,10 @@ interface Chat {
     parts: string;
 }
 
-const genAI = new GoogleGenerativeAI("");
+const genAI = new GoogleGenerativeAI("AIzaSyD9Uh5kLfyrYUS-FJzYCTG6ie0gz8x-Pvc");
 
 export async function run(prompt: string, history: Chat[]) {
-    const model = genAI.getGenerativeModel({ model: "tunedModels/corex-ai-nmtokm4xescc" })
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" })
 
     const chat = model.startChat({
         history: history,
