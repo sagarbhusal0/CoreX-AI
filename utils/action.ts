@@ -5,7 +5,7 @@ interface Chat {
     parts: string;
 }
 
-const genAI = new GoogleGenerativeAI("AIzaSyCbxLs9SA2E7f9_rDvTbbJUU1_dfbBxRRU");
+const genAI = new GoogleGenerativeAI("AIzaSyCPzf_u0NpN5XcjfgWKKED3Nrl6JaNfqYs");
 
 export async function run(prompt: string, history: Chat[]) {
     const model = genAI.getGenerativeModel({ model: "tunedModels/corex-ai-nmtokm4xescc" })
