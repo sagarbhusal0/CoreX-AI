@@ -25,7 +25,10 @@ export default function Home() {
         e.preventDefault()
         setTyping(true)
         addChat("user", userPrompt)
-        const response = await run(userPrompt, history)
+
+        const parts = history.map(chat => ({ text: `${chat.role}: ${chat.parts}` }));
+        const response = await run(userPrompt, parts)
+
         console.log(response);
 
         setUserPrompt("")
