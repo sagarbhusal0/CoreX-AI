@@ -8,7 +8,7 @@ interface Chat {
 const genAI = new GoogleGenerativeAI("AIzaSyCNxL1UQlsV8ojQNJO4ViU3SyjqrVrr7Yw");
 
 export async function run(prompt: string, history: Chat[]) {
-    const model = genAI.getGenerativeModel({ model: "tunedModels/corex-ai-nmtokm4xescc" })
+    const model = genAI.getGenerativeModel({ model: "corex-ai-nmtokm4xescc" })
        
    const chat = model.startChat({
         history: history,
