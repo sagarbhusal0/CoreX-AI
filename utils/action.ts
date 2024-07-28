@@ -5,7 +5,7 @@ interface Chat {
     parts: string;
 }
 
-const genAI = new GoogleGenerativeAI("AIzaSyD9Uh5kLfyrYUS-FJzYCTG6ie0gz8x-Pvc");
+const genAI = new GoogleGenerativeAI("AIzaSyB3g-850LPZa6EpLT--i0JeZNe4owYgXX0");
 
 export async function run(prompt: string, history: Chat[]) {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" })
