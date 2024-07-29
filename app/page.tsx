@@ -54,7 +54,8 @@ export default function Home() {
                         value={userPrompt}
                         onChange={e => setUserPrompt(e.target.value)}
                         className="w-full p-2 border rounded bg-[#212121] outline-none"
-                        placeholder="Type here..."
+                        // massage box area
+                        placeholder="Ask Me Anything [ © Sagar Bhusal]"
                         disabled={typing}
                     />
                 </form>
