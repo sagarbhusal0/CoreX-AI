@@ -4,11 +4,12 @@ interface Chat {
     role: "user" | "model";
     parts: string;
 }
-
+// api key here.
 const genAI = new GoogleGenerativeAI("AIzaSyD9Uh5kLfyrYUS-FJzYCTG6ie0gz8x-Pvc");
 
 export async function run(prompt: string, history: Chat[]) {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" })
+    // Chatbot model here
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
 
     const chat = model.startChat({
         history: history,
@@ -16,7 +17,7 @@ export async function run(prompt: string, history: Chat[]) {
             maxOutputTokens: 1000,
         }
     })
-
+// working method
     const result = await chat.sendMessage(prompt);
     const response = await result.response;
     const output = response.text()
