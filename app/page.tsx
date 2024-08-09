@@ -68,7 +68,7 @@ export default function Home() {
                 height: '40px',
             }}
             disabled={typing}
-        
+        >
         </button>
     </form>
 </div>
