@@ -36,7 +36,7 @@ export default function Home() {
 
     return (
         <div className="max-w-[50%] mx-auto h-screen relative flex flex-col">
-            <div className="p-5 w-full max-h-[calc(100vh-100px)] overflow-y-auto scroll-bar flex flex-col gap-4">
+            <div className="p-5 w-full max-h-[calc(200vh-200px)] overflow-y-auto scroll-bar flex flex-col gap-4">
                 {
                     history.length > 0 ? (
                         <Chats history={history} />
