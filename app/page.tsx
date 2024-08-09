@@ -65,7 +65,7 @@ export default function Home() {
                         placeholder="Ask Me Anything [ © Sagar Bhusal]"
                         disabled={typing}
                         rows={1}
-                        style={{ maxHeight: "50px", overflowY: "auto" }}
+                        style={{ maxHeight: "37px", overflowY: "auto" }}
                     />
 
                     <button
