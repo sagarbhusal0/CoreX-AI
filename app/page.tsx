@@ -1,39 +1,32 @@
 "use client"
-
 import Chats from "@/components/Chats";
 import InitialUI from "@/components/InitialUI";
 import Typing from "@/components/Typing";
 import { run } from "@/utils/action";
 import { useState } from "react";
-
 interface Chat {
     role: "user" | "model";
     parts: string;
 }
-
 export default function Home() {
     const [userPrompt, setUserPrompt] = useState("");
     const [typing, setTyping] = useState(false);
     const [history, setHistory] = useState<Chat[]>([]);
-
     const addChat = (role: Chat["role"], parts: string) => {
         const newChat: Chat = { role, parts };
         setHistory((prevHistory) => [...prevHistory, newChat]);
     };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setTyping(true)
         addChat("user", userPrompt)
         const response = await run(userPrompt, history)
         console.log(response);
-
         setUserPrompt("")
         addChat("model", response)
-
         setTyping(false)
     }
-  return (
+    return (
         <div className="max-w-[75%] mx-auto h-screen relative flex flex-col">
             <div className="p-5 w-full max-h-[calc(100vh-200px)] overflow-y-auto scroll-bar flex flex-col gap-4">
                 {
