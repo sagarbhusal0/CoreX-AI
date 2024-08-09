@@ -15,12 +15,22 @@ interface Chat {
 const MessgeBox = ({ chats }: ChatProps) => {
   return (
     <div className='flex gap-3'>
-      <div className={`h-10 w-10 rounded-full ${chats.role === "user" ? "bg-blue-500" : "bg-green-500"} flex items-center justify-center text-white text-lg`}>
-        {chats.role === "user" ? <FiMessageSquare /> : <TbFidgetSpinner />}
+      <div className='h-10 w-10 rounded-full flex items-center justify-center text-white text-lg'>
+        {chats.role === "user" ? (
+          <FiMessageSquare />
+        ) : (
+          <img
+            src='https://i.ibb.co/B2zTrYK/favicon-removebg-preview.png' // Replace with your image path
+            alt='Model Avatar'
+            className='h-10 w-10 rounded-full object-cover'
+          />
+        )}
       </div>
 
       <div>
-        <span className='font-bold mb-1'>{chats.role === "user" ? "You" : "CoreX AI"}</span>
+        <span className='font-bold mb-1'>
+          {chats.role === "user" ? "You" : "CoreX AI"}
+        </span>
         <ReactMarkdown
           className="flex flex-col gap-4"
           components={{
