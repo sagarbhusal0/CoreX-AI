@@ -35,7 +35,7 @@ export default function Home() {
     }
 
     return (
-        <div className="max-w-[100%] mx-auto h-screen relative flex flex-col">
+        <div className="max-w-[75%] mx-auto h-screen relative flex flex-col">
             <div className="p-5 w-full max-h-[calc(100vh-200px)] overflow-y-auto scroll-bar flex flex-col gap-4">
                 {
                     history.length > 0 ? (
