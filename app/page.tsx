@@ -46,20 +46,25 @@ export default function Home() {
                 }
                 {typing && <Typing typing={typing} />}
             </div>
-            <div className="w-[50%] h-20 fixed bottom-0 left-1/2 -translate-x-1/2 flex items-center justify-center">
-                <form onSubmit={handleSubmit} className="w-full">
-                    <input
-                        autoFocus
-                        type="text"
-                        value={userPrompt}
-                        onChange={e => setUserPrompt(e.target.value)}
-                        className="w-full p-2 border rounded bg-[#212121] outline-none"
-                        // massage box area
-                        placeholder="Ask Me Anything [ © Sagar Bhusal]"
-                        disabled={typing}
-                    />
-                </form>
-            </div>
+           <div className="w-[50%] fixed bottom-0 left-1/2 -translate-x-1/2 flex items-center justify-center">
+    <form onSubmit={handleSubmit} className="w-full">
+        <textarea
+            autoFocus
+            value={userPrompt}
+            onChange={e => {
+                setUserPrompt(e.target.value);
+                e.target.style.height = 'auto'; // Reset the height
+                e.target.style.height = `${e.target.scrollHeight}px`; // Set it to scrollHeight
+            }}
+            className="w-full p-2 border rounded bg-[#212121] outline-none resize-none"
+            placeholder="Ask Me Anything [ © Sagar Bhusal]"
+            disabled={typing}
+            rows={1}
+            style={{ maxHeight: '200px', overflowY: 'auto' }}
+        />
+    </form>
+</div>
+
         </div>
     );
 }
