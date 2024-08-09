@@ -45,7 +45,7 @@ export default function Home() {
                 {typing && <Typing typing={typing} />}
             </div>
 
-            <div className="w-[50%] fixed bottom-0 left-1/2 -translate-x-1/2 flex items-center justify-center">
+            <div className="w-[75%] fixed bottom-0 left-1/2 -translate-x-1/2 flex items-center justify-center">
                 <form onSubmit={handleSubmit} className="w-full flex items-center">
                     <textarea
                         autoFocus
