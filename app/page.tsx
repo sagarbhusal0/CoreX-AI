@@ -33,8 +33,21 @@ export default function Home() {
 
         setTyping(false)
     }
- return (
-   <div className="w-[50%] fixed bottom-0 left-1/2 -translate-x-1/2 flex items-center justify-center">
+  return (
+        <div className="max-w-[75%] mx-auto h-screen relative flex flex-col">
+            <div className="p-5 w-full max-h-[calc(100vh-200px)] overflow-y-auto scroll-bar flex flex-col gap-4">
+                {
+                    history.length > 0 ? (
+                        <Chats history={history} />
+                    ) : (
+                        <InitialUI />
+                    )
+                }
+                {typing && <Typing typing={typing} />}
+            </div>
+           <div className="w-[50%] fixed bottom-0 left-1/2 -translate-x-1/2 flex items-center justify-center">
+    <form onSubmit={handleSubmit} className="w-full">
+    <div className="w-[50%] fixed bottom-0 left-1/2 -translate-x-1/2 flex items-center justify-center">
     <form onSubmit={handleSubmit} className="w-full flex items-center">
         <textarea
             autoFocus
@@ -42,6 +55,7 @@ export default function Home() {
             onChange={e => {
                 setUserPrompt(e.target.value);
                 e.target.style.height = 'auto'; // Reset the height
+                e.target.style.height = `${e.target.scrollHeight}px`; // Set it to scrollHeight
                 e.target.style.height = `${e.target.scrollHeight}px`; // Adjust height to scrollHeight
             }}
             onKeyDown={e => {
@@ -72,5 +86,8 @@ export default function Home() {
         </button>
     </form>
 </div>
-);
+
+
+        </div>
+    );
 }
