@@ -39,8 +39,8 @@ export default function Home() {
     };
 
     return (
-        <div className="max-w-[75%] mx-auto h-screen relative flex flex-col">
-            <div className="p-5 w-full max-h-[calc(100vh-200px)] overflow-y-auto scroll-bar flex flex-col gap-4">
+        <div className="max-w-[80%] mx-auto h-screen relative flex flex-col">
+            <div className="p-5 w-full max-h-[calc(100vh-100px)] overflow-y-auto scroll-bar flex flex-col gap-4">
                 {history.length > 0 ? <Chats history={history} /> : <InitialUI />}
                 {typing && <Typing typing={typing} />}
             </div>
@@ -65,7 +65,7 @@ export default function Home() {
                         placeholder="Ask Me Anything [ © Sagar Bhusal]"
                         disabled={typing}
                         rows={1}
-                        style={{ maxHeight: "100px", overflowY: "auto" }}
+                        style={{ maxHeight: "50px", overflowY: "auto" }}
                     />
 
                     <button
