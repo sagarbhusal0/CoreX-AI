@@ -9,12 +9,14 @@ const genAI = new GoogleGenerativeAI("AIzaSyD9Uh5kLfyrYUS-FJzYCTG6ie0gz8x-Pvc");
 
 export async function run(prompt: string, history: Chat[]) {
     // Chatbot model here
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" })
+    const model = genAI.getGenerativeModel({ model: "tunedModels/corex-ai-nmtokm4xescc" })
 
     const chat = model.startChat({
         history: history,
         generationConfig: {
-            maxOutputTokens: 1000,
+            maxOutputTokens: 8192,
+             temperature: 0.6,
+             topP: 1,
         }
     })
 // working method
