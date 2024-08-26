@@ -39,14 +39,14 @@ export default function Home() {
     };
 
     return (
-        <div className="max-w-[80%] mx-auto h-screen relative flex flex-col bg-gray-900 text-white">
-            <div className="p-5 w-full max-h-[calc(100vh-150px)] overflow-y-auto scroll-bar flex flex-col gap-4 transition-all duration-300 ease-in-out">
+        <div className="w-full h-screen bg-gray-900 text-white flex flex-col">
+            <div className="flex-1 p-5 overflow-y-auto scroll-bar flex flex-col gap-4">
                 {history.length > 0 ? <Chats history={history} /> : <InitialUI />}
                 {typing && <Typing typing={typing} />}
             </div>
 
-            <div className="w-[65%] fixed bottom-5 left-1/2 transform -translate-x-1/2 flex items-center justify-center">
-                <form onSubmit={handleSubmit} className="w-full flex items-center gap-2">
+            <div className="w-full p-4 bg-[#1e1e1e] fixed bottom-0 left-0 flex items-center justify-center border-t border-gray-700">
+                <form onSubmit={handleSubmit} className="w-full max-w-4xl flex items-center gap-4">
                     <textarea
                         autoFocus
                         value={userPrompt}
@@ -61,7 +61,7 @@ export default function Home() {
                                 handleSubmit(e); // Trigger form submission
                             }
                         }}
-                        className="w-full p-3 border rounded-lg bg-[#2c2c2c] text-white outline-none resize-none shadow-md focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                        className="flex-1 p-3 border rounded-lg bg-[#2c2c2c] text-white outline-none resize-none shadow-md focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                         placeholder="Ask Me Anything [ © Sagar Bhusal]"
                         disabled={typing}
                         rows={1}
