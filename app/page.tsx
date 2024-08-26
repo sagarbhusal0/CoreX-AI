@@ -1,16 +1,15 @@
 "use client";
-import Chats from "@/components/Chats";
-import InitialUI from "@/components/InitialUI";
-import Typing from "@/components/Typing";
-import { run } from "@/utils/action";
-import { useState } from "react";
+import React, { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { xonokai } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface Chat {
     role: "user" | "model";
     parts: string;
 }
 
-export default function Home() {
+export default function Message() {
     const [userPrompt, setUserPrompt] = useState("");
     const [typing, setTyping] = useState(false);
     const [history, setHistory] = useState<Chat[]>([]);
@@ -87,4 +86,64 @@ export default function Home() {
             </div>
         </div>
     );
+}
+
+const Chats = ({ history }: { history: Chat[] }) => {
+    return (
+        <div className="flex flex-col gap-3">
+            {history.map((chat, index) => (
+                <div
+                    key={index}
+                    className={`flex ${chat.role === "user" ? "justify-end" : "justify-start"} mb-2`}
+                >
+                    <div
+                        className={`${
+                            chat.role === "user" ? "bg-blue-600 text-white" : "bg-gray-700 text-white"
+                        } max-w-[75%] p-3 rounded-lg shadow-md`}
+                    >
+                        <ReactMarkdown
+                            components={{
+                                code({ children, inline, className, ...props }) {
+                                    const match = /language-(\w+)/.exec(className || '');
+                                    const language = match && match[1] ? match[1] : "javascript";
+                                    return !inline ? (
+                                        <SyntaxHighlighter style={xonokai} language={language} {...props}>
+                                            {children}
+                                        </SyntaxHighlighter>
+                                    ) : (
+                                        <code className="bg-gray-800 text-white px-2 py-[1px] rounded" {...props}>
+                                            {children}
+                                        </code>
+                                    );
+                                }
+                            }}
+                        >
+                            {chat.parts}
+                        </ReactMarkdown>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+const InitialUI = () => (
+    <div className="text-center text-gray-500">
+        Start a conversation by asking a question.
+    </div>
+);
+
+const Typing = ({ typing }: { typing: boolean }) => (
+    typing ? (
+        <div className="text-gray-500">CoreX AI is typing...</div>
+    ) : null
+);
+
+async function run(userPrompt: string, history: Chat[]): Promise<string> {
+    // Simulate a response from the model
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(`This is a simulated response to "${userPrompt}"`);
+        }, 1000);
+    });
 }
