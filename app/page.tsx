@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { xonokai } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { CodeProps } from "react-markdown/lib/ast-to-react";
 
 interface ChatMessage {
   role: "user" | "model";
@@ -35,6 +36,19 @@ const Message: React.FC = () => {
     }, 1000);
   };
 
+  const CodeBlock: React.FC<CodeProps> = ({ inline, className, children }) => {
+    const match = /language-(\w+)/.exec(className || "");
+    return !inline && match ? (
+      <SyntaxHighlighter style={xonokai} language={match[1]} PreTag="div">
+        {String(children).replace(/\n$/, "")}
+      </SyntaxHighlighter>
+    ) : (
+      <code className="bg-gray-800 text-white px-2 py-[1px] rounded">
+        {children}
+      </code>
+    );
+  };
+
   return (
     <div className="w-full h-screen bg-gray-900 flex flex-col">
       <div className="flex-1 p-6 overflow-y-auto">
@@ -52,27 +66,7 @@ const Message: React.FC = () => {
                   : "bg-gray-700 text-white"
               }`}
             >
-              <ReactMarkdown
-                components={{
-                  code({ node, inline, className, children, ...props }) {
-                    const match = /language-(\w+)/.exec(className || "");
-                    return !inline && match ? (
-                      <SyntaxHighlighter
-                        style={xonokai}
-                        language={match[1]}
-                        PreTag="div"
-                        {...props}
-                      >
-                        {String(children).replace(/\n$/, "")}
-                      </SyntaxHighlighter>
-                    ) : (
-                      <code className="bg-gray-800 text-white px-2 py-[1px] rounded" {...props}>
-                        {children}
-                      </code>
-                    );
-                  },
-                }}
-              >
+              <ReactMarkdown components={{ code: CodeBlock }}>
                 {message.content}
               </ReactMarkdown>
             </div>
@@ -114,4 +108,4 @@ const Message: React.FC = () => {
   );
 };
 
-export default page;
+export default Message;
