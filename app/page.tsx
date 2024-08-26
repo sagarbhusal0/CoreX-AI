@@ -23,7 +23,7 @@ export default function Home() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!userPrompt.trim()) return; // Avoid empty submissions
+        if (!userPrompt.trim()) return;
         setTyping(true);
         addChat("user", userPrompt);
         try {
@@ -34,7 +34,7 @@ export default function Home() {
             addChat("model", "An error occurred. Please try again.");
         } finally {
             setTyping(false);
-            setUserPrompt(""); // Clear input after processing
+            setUserPrompt("");
         }
     };
 
@@ -47,12 +47,12 @@ export default function Home() {
 
     return (
         <div className="h-screen w-screen flex flex-col bg-gray-900 text-white">
-            <div className="flex-1 overflow-y-auto scroll-bar p-4 md:p-6">
+            <div className="flex-1 overflow-y-auto p-4 md:p-6">
                 {history.length > 0 ? <Chats history={history} /> : <InitialUI />}
                 {typing && <Typing typing={typing} />}
             </div>
 
-            <div className="w-full p-4 bg-[#1e1e1e] border-t border-gray-700">
+            <div className="w-full p-4">
                 <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex items-end gap-2">
                     <div className="flex-grow">
                         <textarea
@@ -66,7 +66,7 @@ export default function Home() {
                                     handleSubmit(e);
                                 }
                             }}
-                            className="w-full p-3 border rounded-lg bg-[#2c2c2c] text-white outline-none resize-none shadow-md focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                            className="w-full p-3 rounded-lg bg-[#2c2c2c] text-white outline-none resize-none shadow-md focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                             placeholder="Ask Me Anything [ © Sagar Bhusal]"
                             disabled={typing}
                             rows={1}
@@ -76,7 +76,7 @@ export default function Home() {
                     <button
                         type="submit"
                         className={`p-3 rounded-md flex items-center justify-center transition-all duration-300 ease-in-out 
-                        ${typing || !userPrompt.trim() ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} shadow-md`}
+                        ${typing || !userPrompt.trim() ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"} shadow-md`}
                         disabled={typing || !userPrompt.trim()}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
