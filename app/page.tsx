@@ -10,29 +10,6 @@ interface ChatMessage {
   content: string;
 }
 
-const CodeBlock = ({
-  inline,
-  className,
-  children,
-  ...props
-}: {
-  inline?: boolean;
-  className?: string;
-  children: React.ReactNode;
-}) => {
-  const match = /language-(\w+)/.exec(className || "");
-  const language = match && match[1] ? match[1] : "";
-  return !inline ? (
-    <SyntaxHighlighter style={xonokai} language={language} {...props}>
-      {String(children).replace(/\n$/, "")}
-    </SyntaxHighlighter>
-  ) : (
-    <code className="bg-gray-800 text-white px-2 py-[1px] rounded" {...props}>
-      {children}
-    </code>
-  );
-};
-
 const Message: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState<string>("");
@@ -77,15 +54,23 @@ const Message: React.FC = () => {
             >
               <ReactMarkdown
                 components={{
-                  code: ({ inline, className, children, ...props }) => (
-                    <CodeBlock
-                      inline={inline}
-                      className={className}
-                      {...props}
-                    >
-                      {children}
-                    </CodeBlock>
-                  ),
+                  code({ node, inline, className, children, ...props }) {
+                    const match = /language-(\w+)/.exec(className || "");
+                    return !inline && match ? (
+                      <SyntaxHighlighter
+                        style={xonokai}
+                        language={match[1]}
+                        PreTag="div"
+                        {...props}
+                      >
+                        {String(children).replace(/\n$/, "")}
+                      </SyntaxHighlighter>
+                    ) : (
+                      <code className="bg-gray-800 text-white px-2 py-[1px] rounded" {...props}>
+                        {children}
+                      </code>
+                    );
+                  },
                 }}
               >
                 {message.content}
