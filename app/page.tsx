@@ -1,27 +1,41 @@
-"use client";
-import React, { useState } from "react";
+import React, { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { xonokai } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-interface Chat {
-    role: "user" | "model";
-    parts: string;
+interface CodeProps {
+    inline?: boolean;
+    className?: string;
+    children: ReactNode;
 }
 
-export default function Message() {
-    const [userPrompt, setUserPrompt] = useState("");
-    const [typing, setTyping] = useState(false);
-    const [history, setHistory] = useState<Chat[]>([]);
+const CodeBlock: React.FC<CodeProps> = ({ inline, className, children, ...props }) => {
+    const match = /language-(\w+)/.exec(className || '');
+    const language = match && match[1] ? match[1] : "javascript";
+    return !inline ? (
+        <SyntaxHighlighter style={xonokai} language={language} {...props}>
+            {String(children).replace(/\n$/, '')}
+        </SyntaxHighlighter>
+    ) : (
+        <code className="bg-gray-800 text-white px-2 py-[1px] rounded" {...props}>
+            {children}
+        </code>
+    );
+};
 
-    const addChat = (role: Chat["role"], parts: string) => {
-        const newChat: Chat = { role, parts };
+export default function Message() {
+    const [userPrompt, setUserPrompt] = React.useState("");
+    const [typing, setTyping] = React.useState(false);
+    const [history, setHistory] = React.useState<Chat[]>([]);
+
+    const addChat = (role: "user" | "model", parts: string) => {
+        const newChat = { role, parts };
         setHistory((prevHistory) => [...prevHistory, newChat]);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!userPrompt.trim()) return; // Avoid empty submissions
+        if (!userPrompt.trim()) return;
         setTyping(true);
         addChat("user", userPrompt);
 
@@ -33,7 +47,7 @@ export default function Message() {
             addChat("model", "An error occurred. Please try again.");
         } finally {
             setTyping(false);
-            setUserPrompt(""); // Clear input after processing
+            setUserPrompt("");
         }
     };
 
@@ -51,13 +65,13 @@ export default function Message() {
                         value={userPrompt}
                         onChange={(e) => {
                             setUserPrompt(e.target.value);
-                            e.target.style.height = "auto"; // Reset the height
-                            e.target.style.height = `${e.target.scrollHeight}px`; // Adjust height to scrollHeight
+                            e.target.style.height = "auto";
+                            e.target.style.height = `${e.target.scrollHeight}px`;
                         }}
                         onKeyDown={(e) => {
                             if (e.key === "Enter" && !e.shiftKey) {
-                                e.preventDefault(); // Prevent default newline behavior
-                                handleSubmit(e); // Trigger form submission
+                                e.preventDefault();
+                                handleSubmit(e);
                             }
                         }}
                         className="flex-1 p-3 border rounded-lg bg-[#2c2c2c] text-white outline-none resize-none shadow-md focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
@@ -101,25 +115,7 @@ const Chats = ({ history }: { history: Chat[] }) => {
                             chat.role === "user" ? "bg-blue-600 text-white" : "bg-gray-700 text-white"
                         } max-w-[75%] p-3 rounded-lg shadow-md`}
                     >
-                        <ReactMarkdown
-                            components={{
-                                code({ inline, className, children, ...props }: { inline?: boolean; className?: string; children: React.ReactNode }) {
-                                    const match = /language-(\w+)/.exec(className || '');
-                                    const language = match && match[1] ? match[1] : "javascript";
-                                    return !inline ? (
-                                        <SyntaxHighlighter style={xonokai} language={language} {...props}>
-                                            {children}
-                                        </SyntaxHighlighter>
-                                    ) : (
-                                        <code className="bg-gray-800 text-white px-2 py-[1px] rounded" {...props}>
-                                            {children}
-                                        </code>
-                                    );
-                                }
-                            }}
-                        >
-                            {chat.parts}
-                        </ReactMarkdown>
+                        <ReactMarkdown components={{ code: CodeBlock }}>{chat.parts}</ReactMarkdown>
                     </div>
                 </div>
             ))}
@@ -146,4 +142,9 @@ async function run(userPrompt: string, history: Chat[]): Promise<string> {
             resolve(`This is a simulated response to "${userPrompt}"`);
         }, 1000);
     });
+}
+
+interface Chat {
+    role: "user" | "model";
+    parts: string;
 }
