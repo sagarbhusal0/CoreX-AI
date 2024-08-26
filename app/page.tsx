@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { xonokai } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -75,7 +75,19 @@ const Message: React.FC = () => {
                   : "bg-gray-700 text-white"
               }`}
             >
-              <ReactMarkdown components={{ code: CodeBlock }}>
+              <ReactMarkdown
+                components={{
+                  code: ({ inline, className, children, ...props }) => (
+                    <CodeBlock
+                      inline={inline}
+                      className={className}
+                      {...props}
+                    >
+                      {children}
+                    </CodeBlock>
+                  ),
+                }}
+              >
                 {message.content}
               </ReactMarkdown>
             </div>
@@ -117,4 +129,4 @@ const Message: React.FC = () => {
   );
 };
 
-export default page;
+export default Message;
