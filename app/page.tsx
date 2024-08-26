@@ -23,7 +23,7 @@ const CodeBlock: React.FC<CodeProps> = ({ inline, className, children, ...props 
     );
 };
 
-export default function Message() {
+export default function page() {
     const [userPrompt, setUserPrompt] = React.useState("");
     const [typing, setTyping] = React.useState(false);
     const [history, setHistory] = React.useState<Chat[]>([]);
