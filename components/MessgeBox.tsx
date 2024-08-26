@@ -14,25 +14,26 @@ interface Chat {
 
 const MessgeBox = ({ chats }: ChatProps) => {
   return (
-    <div className='flex gap-3'>
-      <div className='h-10 w-10 rounded-full flex items-center justify-center text-white text-lg'>
+    <div className={`flex gap-4 p-4 rounded-lg transition-all duration-300 ease-in-out 
+        ${chats.role === "user" ? "bg-gray-100 hover:shadow-lg" : "bg-blue-100 hover:shadow-lg"}`}>
+      <div className='h-12 w-12 rounded-full flex items-center justify-center text-white text-lg shadow-md'>
         {chats.role === "user" ? (
-          <FiMessageSquare />
+          <FiMessageSquare className="text-gray-500" />
         ) : (
           <img
-            src='https://i.ibb.co/B2zTrYK/favicon-removebg-preview.png' // Replace with your image path
+            src='https://i.ibb.co/B2zTrYK/favicon-removebg-preview.png'
             alt='Model Avatar'
-            className='h-10 w-10 rounded-full object-cover'
+            className='h-12 w-12 rounded-full object-cover transition-transform duration-300 hover:scale-110'
           />
         )}
       </div>
 
       <div>
-        <span className='font-bold mb-1'>
+        <span className='font-semibold text-gray-700 mb-2 block'>
           {chats.role === "user" ? "You" : "CoreX AI"}
         </span>
         <ReactMarkdown
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-4 text-gray-800"
           components={{
             code({ children, inline, className, ...props }: any) {
               const match = /language-(\w+)/.exec(className || '');
@@ -49,7 +50,7 @@ const MessgeBox = ({ chats }: ChatProps) => {
                   {children}
                 </CodeHighlighter>
               ) : (
-                <code className='bg-gray-800 text-white px-2 py-[1px] leading-loose rounded' {...props}>
+                <code className='bg-gray-800 text-white px-2 py-[1px] rounded'>
                   {children}
                 </code>
               );
