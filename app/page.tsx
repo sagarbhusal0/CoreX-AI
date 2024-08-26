@@ -46,15 +46,15 @@ export default function Home() {
     }, [userPrompt]);
 
     return (
-        <div className="max-w-[80%] mx-auto h-screen relative flex flex-col bg-gray-900 text-white">
-            <div className="flex-1 p-5 overflow-y-auto scroll-bar flex flex-col gap-4">
+        <div className="h-screen w-screen flex flex-col bg-gray-900 text-white">
+            <div className="flex-1 overflow-y-auto scroll-bar p-4 md:p-6">
                 {history.length > 0 ? <Chats history={history} /> : <InitialUI />}
                 {typing && <Typing typing={typing} />}
             </div>
 
-            <div className="w-full p-4 bg-[#1e1e1e] fixed bottom-0 left-0 flex items-center justify-center border-t border-gray-700">
-                <form onSubmit={handleSubmit} className="w-full max-w-4xl flex items-center">
-                    <div className="relative flex-grow">
+            <div className="w-full p-4 bg-[#1e1e1e] border-t border-gray-700">
+                <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex items-end gap-2">
+                    <div className="flex-grow">
                         <textarea
                             ref={textareaRef}
                             autoFocus
@@ -66,24 +66,24 @@ export default function Home() {
                                     handleSubmit(e);
                                 }
                             }}
-                            className="w-full p-3 pr-12 border rounded-lg bg-[#2c2c2c] text-white outline-none resize-none shadow-md focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                            className="w-full p-3 border rounded-lg bg-[#2c2c2c] text-white outline-none resize-none shadow-md focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
                             placeholder="Ask Me Anything [ © Sagar Bhusal]"
                             disabled={typing}
                             rows={1}
                             style={{ maxHeight: "200px", overflowY: "auto" }}
                         />
-                        <button
-                            type="submit"
-                            className={`absolute right-2 bottom-2 p-2 rounded-md flex items-center justify-center transition-all duration-300 ease-in-out 
-                            ${typing || !userPrompt.trim() ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} shadow-md`}
-                            disabled={typing || !userPrompt.trim()}
-                        >
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                        </button>
                     </div>
+                    <button
+                        type="submit"
+                        className={`p-3 rounded-md flex items-center justify-center transition-all duration-300 ease-in-out 
+                        ${typing || !userPrompt.trim() ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} shadow-md`}
+                        disabled={typing || !userPrompt.trim()}
+                    >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </button>
                 </form>
             </div>
         </div>
