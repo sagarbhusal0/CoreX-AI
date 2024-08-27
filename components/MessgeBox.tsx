@@ -15,7 +15,7 @@ interface Chat {
 const MessgeBox = ({ chats }: ChatProps) => {
   return (
     <div className={`flex gap-4 p-4 rounded-lg transition-all duration-300 ease-in-out 
-        ${chats.role === "user" ? "bg-gray-100 hover:shadow-lg" : "bg-purple-300 hover:shadow-lg"}`}>
+        ${chats.role === "user" ? "bg-gray-250 hover:shadow-lg" : "bg-purple-300 hover:shadow-lg"}`}>
       <div className='h-12 w-12 rounded-full flex items-center justify-center text-white text-lg shadow-md'>
         {chats.role === "user" ? (
           <FiMessageSquare className="text-gray-500" />
