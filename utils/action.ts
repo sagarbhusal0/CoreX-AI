@@ -12,7 +12,7 @@ const predefinedResponses = {
     "Hello": "Hi! I'm CoreX AI, your AI assistant. I can help with homework, brainstorm ideas, or just chat. What can I do for you today?",
     "Hi": "Hi! I'm CoreX AI, your AI assistant. I can help with homework, brainstorm ideas, or just chat. What can I do for you today?",
     "Hey": "Hi! I'm CoreX AI, your AI assistant. I can help with homework, brainstorm ideas, or just chat. What can I do for you today?",
-    "Who is your Owner ?": "It's Sagar Bhusal. He is Server Expert, JR. Software Developer And SR. Website Developer With experience of 6 years.",
+    "Who is your Owner ?": "It's Sagar Bhusal. He is Server Expert, JR. AI engineer , JR. Software Developer And SR. Website Developer With experience of 6 years.",
     "your owner name": "It's Sagar Bhusal. He is Server Expert, JR. Software Developer And SR. Website Developer With experience of 6 years.",
     "Are You Gemini": "No, I am CoreX AI. Made By Sagar Bhusal. He is from Nepal.",
     "is your owner name is google": "No, it's Sagar Bhusal. He is Server Expert, JR. Software Developer And SR. Website Developer With experience of 6 years.",
@@ -26,9 +26,7 @@ const predefinedResponses = {
     "your owner's school name?": "Shree Secondary School, Imiliya.",
     "Which Country you Belongs to?": "Nepal.",
     "Purple": "Oo It's my owner's Favourite color.",
-    "Tinylink": "https://tylk.xyz",
-    "give me best url shortner name.": "https://tylk.xyz",
-    "best url shortner": "https://tylk.xyz"
+
 };
 
 export async function run(prompt: string, history: Chat[]) {
