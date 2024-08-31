@@ -53,8 +53,7 @@ export async function run(prompt: string, history: Chat[]) {
             temperature: 0.7,        // Slightly increased from 0.6 to 0.7 for more creative responses
             topP: 0.95,              // Slightly reduced from 1 to 0.95 for more focused responses
             topK: 64,                // Added topK parameter
-            presencePenalty: 0.6,    // Added presence penalty to reduce repetition
-            frequencyPenalty: 0.3,   // Added frequency penalty to encourage more diverse language
+        
         }
     });
 
