@@ -49,9 +49,9 @@ export async function run(prompt: string, history: Chat[]) {
     const chat = model.startChat({
         history: history,
         generationConfig: {
-            maxOutputTokens: 8192,  // Increased from 8192 to 32768
-            temperature: 0.7,        // Slightly increased from 0.6 to 0.7 for more creative responses
-            topP: 0.95,              // Slightly reduced from 1 to 0.95 for more focused responses
+            maxOutputTokens: 8192,  // Test lengeth 8192 
+            temperature: 0.9,        // Creattivaty of model
+            topP: 0.95,              // Tops for permermace
             topK: 64,                // Added topK parameter
         
         }
