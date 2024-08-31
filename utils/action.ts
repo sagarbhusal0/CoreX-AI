@@ -8,7 +8,7 @@ interface Chat {
 // API key here.
 const genAI = new GoogleGenerativeAI("AIzaSyD9Uh5kLfyrYUS-FJzYCTG6ie0gz8x-Pvc");
 
-const model = genAI.getGenerativeModel({ model: "tunedModels/corex-ai-nmtokm4xescc" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const generationConfig = {
     temperature: 0.9,
