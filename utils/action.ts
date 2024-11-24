@@ -4,17 +4,17 @@ interface Chat {
     parts: string;
 }
 // api key here.
-const genAI = new GoogleGenerativeAI("AIzaSyD9Uh5kLfyrYUS-FJzYCTG6ie0gz8x-Pvc");
+const genAI = new GoogleGenerativeAI("AIzaSyB3g-850LPZa6EpLT--i0JeZNe4owYgXX0");
 
 export async function run(prompt: string, history: Chat[]) {
     // Chatbot model here
    
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" })
 
     const chat = model.startChat({
         history: history,
         generationConfig: {
-            maxOutputTokens: 8192,
+            maxOutputTokens: 11192,
              temperature: 1,
              topP: 1,
         }
