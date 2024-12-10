@@ -4,11 +4,11 @@ import { Chat } from "@/types/chat";
 const genAI = new GoogleGenerativeAI("AIzaSyD9Uh5kLfyrYUS-FJzYCTG6ie0gz8x-Pvc");
 
 export async function run(prompt: string, history: Chat[], image?: string | null) {
-    if (image) {
-        // Use Gemini Pro Vision for image analysis
-        const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
-        
-        try {
+    try {
+        if (image) {
+            // Use Gemini Pro Vision for image analysis
+            const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
+            
             const imagePart = {
                 inlineData: {
                     data: image.split(',')[1],
@@ -17,38 +17,39 @@ export async function run(prompt: string, history: Chat[], image?: string | null
             };
             
             const result = await model.generateContent([
-                { text: prompt },
+                { text: prompt || "What's in this image?" },
                 imagePart
             ]);
-            const response = await result.response;
-            return response.text();
-        } catch (error) {
-            console.error("Error processing image:", error);
-            throw new Error("Failed to process image");
-        }
-    } else {
-        // Use Gemini Pro for text chat
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-        
-        try {
+            
+            if (!result.response) throw new Error("No response from model");
+            return result.response.text();
+            
+        } else {
+            // Use Gemini Pro for text chat
+            const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+            
+            // Format history for the API
+            const formattedHistory = history.map(msg => ({
+                role: msg.role === "user" ? "user" : "model",
+                parts: [{ text: msg.parts }]
+            }));
+            
             const chat = model.startChat({
-                history: history.map(msg => ({
-                    role: msg.role,
-                    parts: [{ text: msg.parts }]
-                })),
+                history: formattedHistory,
                 generationConfig: {
-                    maxOutputTokens: 11192,
+                    maxOutputTokens: 4096,
                     temperature: 0.7,
-                    topP: 1,
+                    topP: 0.8,
+                    topK: 40
                 }
             });
 
             const result = await chat.sendMessage(prompt);
-            const response = await result.response;
-            return response.text();
-        } catch (error) {
-            console.error("Error in chat:", error);
-            throw new Error("Failed to get response");
+            if (!result.response) throw new Error("No response from model");
+            return result.response.text();
         }
+    } catch (error) {
+        console.error("Error in run function:", error);
+        throw new Error(error instanceof Error ? error.message : "Failed to get response");
     }
 }

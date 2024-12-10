@@ -28,18 +28,27 @@ export default function Home() {
         if (!userPrompt.trim() && !selectedImage) return;
         
         setTyping(true);
-        const promptWithImage = selectedImage 
-            ? `${userPrompt || "What's in this image?"}\n[Image analysis request]` 
-            : userPrompt;
-        
-        addChat("user", promptWithImage, selectedImage);
+        const currentPrompt = userPrompt.trim() || (selectedImage ? "What's in this image?" : "");
         
         try {
-            const response = await run(userPrompt, history, selectedImage);
-            addChat("model", response);
+            // Add user message first
+            addChat("user", currentPrompt, selectedImage);
+            
+            // Get AI response
+            const response = await run(currentPrompt, history, selectedImage);
+            
+            // Add AI response
+            if (response) {
+                addChat("model", response);
+            } else {
+                throw new Error("No response received");
+            }
         } catch (error) {
-            console.error("Error fetching response:", error);
-            addChat("model", "I apologize, but I encountered an error while processing your request. Please try again or rephrase your question.");
+            console.error("Chat error:", error);
+            addChat(
+                "model", 
+                "I apologize, but I encountered an error. Please try again or rephrase your question."
+            );
         } finally {
             setTyping(false);
             setUserPrompt("");
