@@ -10,6 +10,7 @@ interface ChatProps {
 interface Chat {
   role: "user" | "model";
   parts: string;
+  image?: string;
 }
 
 const MessgeBox = ({ chats }: ChatProps) => {
@@ -32,6 +33,13 @@ const MessgeBox = ({ chats }: ChatProps) => {
         <span className='font-semibold text-gray-700 mb-2 block'>
           {chats.role === "user" ? "You" : "CoreX AI"}
         </span>
+        {chats.image && (
+          <img 
+            src={chats.image} 
+            alt="Uploaded content"
+            className="max-w-sm rounded-lg mb-4 shadow-lg"
+          />
+        )}
         <ReactMarkdown
           className="flex flex-col gap-4 text-gray-800"
           components={{
