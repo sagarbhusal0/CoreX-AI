@@ -1,13 +1,13 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Chat } from "@/types/chat";
 
-const genAI = new GoogleGenerativeAI("AIzaSyD9Uh5kLfyrYUS-FJzYCTG6ie0gz8x-Pvc");
+const genAI = new GoogleGenerativeAI("AIzaSyB0qNN-ugZbXEyrfcNLdpFz4G3owdFeWTY");
 
 export async function run(prompt: string, history: Chat[] = [], image?: string | null) {
     try {
         if (image) {
             // Use Gemini Pro Vision for image analysis
-            const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro	" });
             
             const imagePart = {
                 inlineData: {
@@ -26,7 +26,7 @@ export async function run(prompt: string, history: Chat[] = [], image?: string |
             
         } else {
             // Use Gemini Pro for text chat
-            const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
             
             // Format history for the API
             const formattedHistory = history.map(msg => ({
