@@ -32,9 +32,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect }) => {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 className="flex items-center text-gray-400 hover:text-white transition-colors"
+                aria-label="Upload Image"
             >
-                <FiUpload className="mr-2" />
-                Upload Image
+                <FiUpload className="text-2xl" />
             </button>
         </div>
     );
