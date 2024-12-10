@@ -9,7 +9,7 @@ import ImageUpload from '@/components/ImageUpload';
 interface Chat {
     role: "user" | "model";
     parts: string;
-    image?: string;
+    image?: string | null;
 }
 
 export default function Home() {
@@ -19,8 +19,12 @@ export default function Home() {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    const addChat = (role: Chat["role"], parts: string, image?: string) => {
-        const newChat: Chat = { role, parts, image };
+    const addChat = (role: Chat["role"], parts: string, image?: string | null) => {
+        const newChat: Chat = { 
+            role, 
+            parts, 
+            image: image || undefined 
+        };
         setHistory((prevHistory) => [...prevHistory, newChat]);
     };
 
