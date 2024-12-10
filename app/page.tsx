@@ -72,6 +72,7 @@ export default function Home() {
             <div className="w-full p-4">
                 <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex flex-col gap-2">
                     <div className="flex items-end gap-2">
+                        <ImageUpload onImageSelect={setSelectedImage} />
                         <div className="flex-grow relative">
                             <textarea
                                 ref={textareaRef}
@@ -90,9 +91,6 @@ export default function Home() {
                                 rows={1}
                                 style={{ maxHeight: "200px", overflowY: "auto" }}
                             />
-                            <div className="absolute bottom-2 left-2">
-                                <ImageUpload onImageSelect={setSelectedImage} />
-                            </div>
                         </div>
                         <button
                             type="submit"

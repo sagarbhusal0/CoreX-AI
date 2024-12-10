@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { FiUpload } from 'react-icons/fi';
 
 interface ImageUploadProps {
     onImageSelect: (imageData: string | null) => void;
@@ -19,7 +20,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect }) => {
     };
 
     return (
-        <div>
+        <div className="flex items-center">
             <input
                 type="file"
                 ref={fileInputRef}
@@ -30,8 +31,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect }) => {
             <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="flex items-center text-gray-400 hover:text-white transition-colors"
             >
+                <FiUpload className="mr-2" />
                 Upload Image
             </button>
         </div>
