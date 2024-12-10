@@ -25,20 +25,33 @@ export default function Home() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!userPrompt.trim()) return;
-        
+        if (!userPrompt.trim() && !selectedImage) return;
+
         setTyping(true);
-        addChat("user", userPrompt);
         
+        // Prepare the current prompt
+        const currentPrompt = userPrompt.trim() || (selectedImage ? "What's in this image?" : "");
+
+        // Add user message first
+        addChat("user", currentPrompt, selectedImage);
+
         try {
-            const response = await run(userPrompt);
+            // Get AI response
+            const response = await run(currentPrompt, history, selectedImage);
+            
+            // Add AI response
+            if (response) {
                 addChat("model", response);
+            } else {
+                throw new Error("No response received");
+            }
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Chat error:", error);
             addChat("model", "I apologize, but I encountered an error. Please try again.");
         } finally {
             setTyping(false);
             setUserPrompt("");
+            setSelectedImage(null); // Clear the selected image after sending
         }
     };
 
