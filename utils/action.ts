@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Chat } from "@/types/chat";
 
-const genAI = new GoogleGenerativeAI("YOUR_API_KEY");
+const genAI = new GoogleGenerativeAI("AIzaSyD9Uh5kLfyrYUS-FJzYCTG6ie0gz8x-Pvc");
 
 // Move the function outside the block
 async function fileToGenerativePart(base64Data: string) {
