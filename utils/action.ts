@@ -20,7 +20,7 @@ async function fileToGenerativePart(base64Data: string) {
 }
 
 export async function run(prompt: string, history: Chat[], image?: string | null) {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
     if (image) {
         const imagePart = await fileToGenerativePart(image);
