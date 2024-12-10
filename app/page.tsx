@@ -29,7 +29,7 @@ export default function Home() {
         
         setTyping(true);
         const promptWithImage = selectedImage 
-            ? `${userPrompt}\n[Image analysis request]` 
+            ? `${userPrompt || "What's in this image?"}\n[Image analysis request]` 
             : userPrompt;
         
         addChat("user", promptWithImage, selectedImage);
@@ -39,7 +39,7 @@ export default function Home() {
             addChat("model", response);
         } catch (error) {
             console.error("Error fetching response:", error);
-            addChat("model", "An error occurred. Please try again.");
+            addChat("model", "I apologize, but I encountered an error while processing your request. Please try again or rephrase your question.");
         } finally {
             setTyping(false);
             setUserPrompt("");

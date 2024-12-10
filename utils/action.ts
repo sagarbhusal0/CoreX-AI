@@ -1,46 +1,54 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Chat } from "@/types/chat";
 
-const genAI = new GoogleGenerativeAI("YOUR_API_KEY");
-
-// Move the function outside the block
-async function fileToGenerativePart(base64Data: string) {
-    const base64Content = base64Data.split(',')[1];
-    const binaryContent = atob(base64Content);
-    const bytes = new Uint8Array(binaryContent.length);
-    for (let i = 0; i < binaryContent.length; i++) {
-        bytes[i] = binaryContent.charCodeAt(i);
-    }
-    return {
-        inlineData: {
-            data: base64Content,
-            mimeType: "image/jpeg"
-        }
-    };
-}
+const genAI = new GoogleGenerativeAI("AIzaSyD9Uh5kLfyrYUS-FJzYCTG6ie0gz8x-Pvc");
 
 export async function run(prompt: string, history: Chat[], image?: string | null) {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
-
     if (image) {
-        const imagePart = await fileToGenerativePart(image);
-        const result = await model.generateContent([prompt, imagePart]);
-        const response = await result.response;
-        return response.text();
+        // Use Gemini Pro Vision for image analysis
+        const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
+        
+        try {
+            const imagePart = {
+                inlineData: {
+                    data: image.split(',')[1],
+                    mimeType: "image/jpeg"
+                }
+            };
+            
+            const result = await model.generateContent([
+                { text: prompt },
+                imagePart
+            ]);
+            const response = await result.response;
+            return response.text();
+        } catch (error) {
+            console.error("Error processing image:", error);
+            throw new Error("Failed to process image");
+        }
     } else {
-        // Regular text chat without image
+        // Use Gemini Pro for text chat
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-        const chat = model.startChat({
-            history: history,
-            generationConfig: {
-                maxOutputTokens: 11192,
-                temperature: 1,
-                topP: 1,
-            }
-        });
+        
+        try {
+            const chat = model.startChat({
+                history: history.map(msg => ({
+                    role: msg.role,
+                    parts: [{ text: msg.parts }]
+                })),
+                generationConfig: {
+                    maxOutputTokens: 11192,
+                    temperature: 0.7,
+                    topP: 1,
+                }
+            });
 
-        const result = await chat.sendMessage(prompt);
-        const response = await result.response;
-        return response.text();
+            const result = await chat.sendMessage(prompt);
+            const response = await result.response;
+            return response.text();
+        } catch (error) {
+            console.error("Error in chat:", error);
+            throw new Error("Failed to get response");
+        }
     }
 }
