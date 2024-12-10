@@ -1,16 +1,11 @@
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { FiMessageSquare } from 'react-icons/fi';
-import { TbFidgetSpinner } from 'react-icons/tb';
 import CodeHighlighter from './CodeHighlighter';
+import { Chat } from "@/types/chat";
 
 interface ChatProps {
   chats: Chat;
-}
-
-interface Chat {
-  role: "user" | "model";
-  parts: string;
-  image?: string;
 }
 
 const MessgeBox = ({ chats }: ChatProps) => {

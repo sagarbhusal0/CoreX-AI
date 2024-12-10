@@ -1,13 +1,9 @@
 import React from 'react'
 import MessgeBox from './MessgeBox';
+import { Chat } from "@/types/chat";
 
 interface ChatProps {
     history: Chat[];
-}
-
-interface Chat {
-    role: "user" | "model";
-    parts: string;
 }
 
 const Chats = ({ history }: ChatProps) => {

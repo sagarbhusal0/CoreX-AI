@@ -5,12 +5,7 @@ import Typing from "@/components/Typing";
 import { run } from "@/utils/action";
 import { useState, useRef, useEffect } from "react";
 import ImageUpload from '@/components/ImageUpload';
-
-interface Chat {
-    role: "user" | "model";
-    parts: string;
-    image?: string | null;
-}
+import { Chat } from "@/types/chat";
 
 export default function Home() {
     const [userPrompt, setUserPrompt] = useState("");

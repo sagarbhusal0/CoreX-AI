@@ -1,10 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
-interface Chat {
-    role: "user" | "model";
-    parts: string;
-    image?: string;
-}
+import { Chat } from "@/types/chat";
 
 const genAI = new GoogleGenerativeAI("YOUR_API_KEY");
 
