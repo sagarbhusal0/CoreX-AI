@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Chat } from "@/types/chat";
 
-const genAI = new GoogleGenerativeAI("AIzaSyB0qNN-ugZbXEyrfcNLdpFz4G3owdFeWTY");
+const genAI = new GoogleGenerativeAI("AIzaSyB3g-850LPZa6EpLT--i0JeZNe4owYgXX0");
 
 export async function run(prompt: string, history: Chat[] = [], image?: string | null) {
     try {
