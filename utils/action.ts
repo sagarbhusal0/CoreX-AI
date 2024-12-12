@@ -7,7 +7,7 @@ export async function run(prompt: string, history: Chat[] = [], image?: string |
     try {
         if (image) {
             // Use Gemini Pro Vision for image analysis
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro	" });
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
             
             const imagePart = {
                 inlineData: {
@@ -26,7 +26,7 @@ export async function run(prompt: string, history: Chat[] = [], image?: string |
             
         } else {
             // Use Gemini Pro for text chat
-            const model = genAI.getGenerativeModel({ model: "tunedModels/corex-ai-nmtokm4xescc" });
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
             
             // Format history for the API
             const formattedHistory = history.map(msg => ({
