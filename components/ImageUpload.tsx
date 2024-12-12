@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { FiUpload } from 'react-icons/fi';
+import React, { useRef, useCallback, useEffect } from 'react';
+import { FiUpload, FiClipboard } from 'react-icons/fi';
 
 interface ImageUploadProps {
     onImageSelect: (imageData: string | null) => void;
@@ -7,6 +7,33 @@ interface ImageUploadProps {
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handlePaste = useCallback(async (event: ClipboardEvent) => {
+        const items = event.clipboardData?.items;
+        
+        if (!items) return;
+
+        for (const item of items) {
+            if (item.type.indexOf('image') !== -1) {
+                const file = item.getAsFile();
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        onImageSelect(reader.result as string);
+                    };
+                    reader.readAsDataURL(file);
+                }
+                break;
+            }
+        }
+    }, [onImageSelect]);
+
+    useEffect(() => {
+        document.addEventListener('paste', handlePaste);
+        return () => {
+            document.removeEventListener('paste', handlePaste);
+        };
+    }, [handlePaste]);
 
     const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -20,7 +47,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect }) => {
     };
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
             <input
                 type="file"
                 ref={fileInputRef}
@@ -33,8 +60,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect }) => {
                 onClick={() => fileInputRef.current?.click()}
                 className="flex items-center text-gray-400 hover:text-white transition-colors"
                 aria-label="Upload Image"
+                title="Upload Image"
             >
                 <FiUpload className="text-2xl" />
+            </button>
+            <button
+                type="button"
+                className="flex items-center text-gray-400 hover:text-white transition-colors"
+                aria-label="Paste Image"
+                title="Paste Image (Ctrl/Cmd + V)"
+            >
+                <FiClipboard className="text-2xl" />
             </button>
         </div>
     );
