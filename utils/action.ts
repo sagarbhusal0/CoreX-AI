@@ -26,7 +26,7 @@ export async function run(prompt: string, history: Chat[] = [], image?: string |
             
         } else {
             // Use Gemini Pro for text chat
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const model = genAI.getGenerativeModel({ model: "tunedModels/corex-ai-nmtokm4xescc" });
             
             // Format history for the API
             const formattedHistory = history.map(msg => ({
@@ -38,7 +38,7 @@ export async function run(prompt: string, history: Chat[] = [], image?: string |
                 history: formattedHistory,
                 generationConfig: {
                     maxOutputTokens: 4096,
-                    temperature: 0.7,
+                    temperature: 0.8,
                     topP: 0.8,
                     topK: 40
                 }
