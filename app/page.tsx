@@ -6,7 +6,7 @@ import { run } from "@/utils/action";
 import { useState, useRef, useEffect } from "react";
 import ImageUpload from '@/components/ImageUpload';
 import { Chat } from "@/types/chat";
-import { FiX } from 'react-icons/fi';
+import { FiX, FiImage } from 'react-icons/fi';
 
 export default function Home() {
     const [userPrompt, setUserPrompt] = useState("");
@@ -109,19 +109,24 @@ export default function Home() {
                         </button>
                     </div>
                     {selectedImage && (
-                        <div className="mt-2 relative w-fit">
-                            <img 
-                                src={selectedImage} 
-                                alt="Selected" 
-                                className="max-h-40 rounded-lg"
-                            />
-                            <button
-                                onClick={() => setSelectedImage(null)}
-                                className="absolute -top-1 -right-1 bg-red-500 rounded-full p-1 hover:bg-red-600 transition-colors"
-                                aria-label="Remove image"
-                            >
-                                <FiX className="text-white text-lg" />
-                            </button>
+                        <div className="mt-2 flex items-start gap-2">
+                            <div className="h-8 w-8 rounded-full bg-gray-600 flex items-center justify-center">
+                                <FiImage className="text-lg text-gray-300" />
+                            </div>
+                            <div className="relative w-fit">
+                                <img 
+                                    src={selectedImage} 
+                                    alt="Selected" 
+                                    className="max-h-32 rounded-lg border border-gray-700"
+                                />
+                                <button
+                                    onClick={() => setSelectedImage(null)}
+                                    className="absolute -top-1.5 -right-1.5 bg-gray-800 rounded-full p-1 hover:bg-gray-700 transition-colors border border-gray-600"
+                                    aria-label="Remove image"
+                                >
+                                    <FiX className="text-gray-300 text-sm" />
+                                </button>
+                            </div>
                         </div>
                     )}
                 </form>
