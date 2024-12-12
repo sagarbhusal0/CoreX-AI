@@ -76,7 +76,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
     };
 
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-stretch gap-2">
             <input
                 type="file"
                 ref={fileInputRef}
@@ -84,24 +84,26 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
                 accept="image/*"
                 className="hidden"
             />
-            <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="flex items-center text-gray-400 hover:text-white transition-colors"
-                aria-label="Upload Image"
-                title="Upload Image"
-            >
-                <FiUpload className="text-2xl" />
-            </button>
-            <button
-                type="button"
-                onClick={handleClipboardClick}
-                className="flex items-center text-gray-400 hover:text-white transition-colors"
-                aria-label="Paste Image"
-                title="Paste Image (Ctrl/Cmd + V)"
-            >
-                <FiClipboard className="text-2xl" />
-            </button>
+            <div className="flex gap-1 bg-[#2c2c2c] p-3 rounded-lg">
+                <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center text-gray-400 hover:text-white transition-colors"
+                    aria-label="Upload Image"
+                    title="Upload Image"
+                >
+                    <FiUpload className="text-xl" />
+                </button>
+                <button
+                    type="button"
+                    onClick={handleClipboardClick}
+                    className="flex items-center text-gray-400 hover:text-white transition-colors"
+                    aria-label="Paste Image"
+                    title="Paste Image (Ctrl/Cmd + V)"
+                >
+                    <FiClipboard className="text-xl" />
+                </button>
+            </div>
         </div>
     );
 };
