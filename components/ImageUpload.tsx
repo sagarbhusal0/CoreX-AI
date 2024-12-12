@@ -55,49 +55,31 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
     };
 
     return (
-        <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleImageSelect}
-                    accept="image/*"
-                    className="hidden"
-                />
-                <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center text-gray-400 hover:text-white transition-colors"
-                    aria-label="Upload Image"
-                    title="Upload Image"
-                >
-                    <FiUpload className="text-2xl" />
-                </button>
-                <button
-                    type="button"
-                    className="flex items-center text-gray-400 hover:text-white transition-colors"
-                    aria-label="Paste Image"
-                    title="Paste Image (Ctrl/Cmd + V)"
-                >
-                    <FiClipboard className="text-2xl" />
-                </button>
-            </div>
-            {selectedImage && (
-                <div className="relative inline-block">
-                    <img 
-                        src={selectedImage} 
-                        alt="Selected" 
-                        className="max-h-40 rounded-lg"
-                    />
-                    <button
-                        onClick={handleRemoveImage}
-                        className="absolute -top-2 -right-2 bg-red-500 rounded-full p-1 hover:bg-red-600 transition-colors"
-                        aria-label="Remove image"
-                    >
-                        <FiX className="text-white text-lg" />
-                    </button>
-                </div>
-            )}
+        <div className="flex items-center gap-2">
+            <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageSelect}
+                accept="image/*"
+                className="hidden"
+            />
+            <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="flex items-center text-gray-400 hover:text-white transition-colors"
+                aria-label="Upload Image"
+                title="Upload Image"
+            >
+                <FiUpload className="text-2xl" />
+            </button>
+            <button
+                type="button"
+                className="flex items-center text-gray-400 hover:text-white transition-colors"
+                aria-label="Paste Image"
+                title="Paste Image (Ctrl/Cmd + V)"
+            >
+                <FiClipboard className="text-2xl" />
+            </button>
         </div>
     );
 };

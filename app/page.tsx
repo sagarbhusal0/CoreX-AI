@@ -6,6 +6,7 @@ import { run } from "@/utils/action";
 import { useState, useRef, useEffect } from "react";
 import ImageUpload from '@/components/ImageUpload';
 import { Chat } from "@/types/chat";
+import { FiX } from 'react-icons/fi';
 
 export default function Home() {
     const [userPrompt, setUserPrompt] = useState("");
@@ -98,8 +99,8 @@ export default function Home() {
                         <button
                             type="submit"
                             className={`p-3 rounded-md flex items-center justify-center transition-all duration-300 ease-in-out 
-                            ${typing || !userPrompt.trim() ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"} shadow-md`}
-                            disabled={typing || !userPrompt.trim()}
+                            ${typing || (!userPrompt.trim() && !selectedImage) ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"} shadow-md`}
+                            disabled={typing || (!userPrompt.trim() && !selectedImage)}
                         >
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -107,6 +108,22 @@ export default function Home() {
                             </svg>
                         </button>
                     </div>
+                    {selectedImage && (
+                        <div className="mt-2 relative inline-block">
+                            <img 
+                                src={selectedImage} 
+                                alt="Selected" 
+                                className="max-h-40 rounded-lg"
+                            />
+                            <button
+                                onClick={() => setSelectedImage(null)}
+                                className="absolute -top-2 -right-2 bg-red-500 rounded-full p-1 hover:bg-red-600 transition-colors"
+                                aria-label="Remove image"
+                            >
+                                <FiX className="text-white text-lg" />
+                            </button>
+                        </div>
+                    )}
                 </form>
             </div>
         </div>
