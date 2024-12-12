@@ -109,7 +109,7 @@ export default function Home() {
                         </button>
                     </div>
                     {selectedImage && (
-                        <div className="mt-2 relative inline-block">
+                        <div className="mt-2 relative w-fit">
                             <img 
                                 src={selectedImage} 
                                 alt="Selected" 
@@ -117,7 +117,7 @@ export default function Home() {
                             />
                             <button
                                 onClick={() => setSelectedImage(null)}
-                                className="absolute -top-2 -right-2 bg-red-500 rounded-full p-1 hover:bg-red-600 transition-colors"
+                                className="absolute -top-1 -right-1 bg-red-500 rounded-full p-1 hover:bg-red-600 transition-colors"
                                 aria-label="Remove image"
                             >
                                 <FiX className="text-white text-lg" />
