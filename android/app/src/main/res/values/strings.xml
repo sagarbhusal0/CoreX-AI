@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">CoreX AI</string>
+    <string name="title_activity_main">CoreX AI</string>
+    <string name="package_name">com.sagarb.ai.corex</string>
+    <string name="custom_url_scheme">com.sagarb.ai.corex</string>
+</resources>
