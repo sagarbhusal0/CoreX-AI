@@ -72,7 +72,10 @@ export default function Home() {
             <div className="w-full p-4">
                 <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex flex-col gap-2">
                     <div className="flex items-end gap-2">
-                        <ImageUpload onImageSelect={setSelectedImage} />
+                        <ImageUpload 
+                            onImageSelect={setSelectedImage} 
+                            selectedImage={selectedImage}
+                        />
                         <div className="flex-grow relative">
                             <textarea
                                 ref={textareaRef}
