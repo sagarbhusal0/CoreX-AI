@@ -107,15 +107,6 @@ export default function Home() {
                             </svg>
                         </button>
                     </div>
-                    {selectedImage && (
-                        <div className="mt-2">
-                            <img 
-                                src={selectedImage} 
-                                alt="Selected" 
-                                className="max-h-40 rounded-lg"
-                            />
-                        </div>
-                    )}
                 </form>
             </div>
         </div>
