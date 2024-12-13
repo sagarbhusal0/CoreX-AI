@@ -248,3 +248,52 @@ button:focus-visible {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* Add shake animation for blocked interactions */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+}
+
+.shake-animation {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.shake-animation-container {
+  position: relative;
+}
+
+.shake-animation-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.shake-animation-container.shake-animation::after {
+  opacity: 0.1;
+  background-color: #ff0000;
+  border-radius: inherit;
+}
+
+/* Improve disabled state visuals */
+textarea:disabled, 
+button:disabled {
+  cursor: not-allowed !important;
+}
+
+/* Add pulsing effect to the disabled state */
+textarea:disabled {
+  animation: pulse-subtle 2s infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.3; }
+}

@@ -6,7 +6,7 @@ import { run } from "@/utils/action";
 import { useState, useRef, useEffect } from "react";
 import ImageUpload from '@/components/ImageUpload';
 import { Chat } from "@/types/chat";
-import { FiX, FiImage, FiClipboard } from 'react-icons/fi';
+import { FiX, FiImage, FiClipboard, FiSend } from 'react-icons/fi';
 
 export default function Home() {
     const [userPrompt, setUserPrompt] = useState("");
@@ -121,6 +121,23 @@ export default function Home() {
         }
     }, [userPrompt]);
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if (isApiResponding) {
+                const textarea = textareaRef.current;
+                if (textarea) {
+                    textarea.classList.add('shake-animation');
+                    setTimeout(() => {
+                        textarea.classList.remove('shake-animation');
+                    }, 500);
+                }
+                return;
+            }
+            handleSubmit(e);
+        }
+    };
+
     return (
         <div className="h-screen w-screen flex flex-col bg-[#111827] text-white">
             <div className="flex-1 overflow-y-auto p-2 md:p-4 lg:p-6 scroll-smooth">
@@ -144,19 +161,13 @@ export default function Home() {
                                     autoFocus
                                     value={userPrompt}
                                     onChange={(e) => setUserPrompt(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter' && !e.shiftKey) {
-                                            e.preventDefault();
-                                            if (!isApiResponding) {
-                                                handleSubmit(e);
-                                            }
-                                        }
-                                    }}
+                                    onKeyDown={handleKeyDown}
                                     className={`w-full p-3 bg-[#2c2c2c] text-white outline-none resize-none 
-                                            transition-colors duration-200 pr-10
+                                            transition-all duration-200 pr-10
                                             border border-gray-700/50 focus:border-blue-500/50 hover:border-gray-600/50
                                             text-sm md:text-base rounded-lg
-                                            ${isApiResponding ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                            ${isApiResponding ? 'opacity-50 cursor-not-allowed' : ''}
+                                            shake-animation-container`}
                                     placeholder={isApiResponding ? "Please wait for response..." : "Ask Me Anything [ © Sagar Bhusal]"}
                                     disabled={isApiResponding}
                                     rows={1}
@@ -182,18 +193,24 @@ export default function Home() {
                             </div>
                             <button
                                 type="submit"
-                                className={`p-3 rounded-lg flex items-center justify-center transition-colors duration-200 self-stretch
+                                className={`p-3 rounded-lg flex items-center justify-center transition-all duration-200 self-stretch
                                         ${isApiResponding || (!userPrompt.trim() && !selectedImage)
-                                            ? "bg-red-300 cursor-not-allowed opacity-50" 
+                                            ? "bg-red-300 cursor-not-allowed opacity-50 shake-animation-container" 
                                             : "bg-red-600 hover:bg-red-700"}`}
                                 disabled={isApiResponding || (!userPrompt.trim() && !selectedImage)}
+                                onClick={(e) => {
+                                    if (isApiResponding) {
+                                        e.preventDefault();
+                                        const button = e.currentTarget;
+                                        button.classList.add('shake-animation');
+                                        setTimeout(() => {
+                                            button.classList.remove('shake-animation');
+                                        }, 500);
+                                    }
+                                }}
                             >
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-                                    className={`transition-transform duration-200 hover:rotate-12 
-                                        ${isApiResponding ? 'opacity-50' : ''}`}>
-                                    <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
+                                <FiSend className={`text-xl transition-transform duration-200 
+                                    ${isApiResponding ? 'opacity-50' : 'hover:rotate-12'}`} />
                             </button>
                         </div>
 
