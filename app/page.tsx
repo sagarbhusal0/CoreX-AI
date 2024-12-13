@@ -30,17 +30,13 @@ export default function Home() {
 
         setTyping(true);
         
-        // Prepare the current prompt
         const currentPrompt = userPrompt.trim() || (selectedImage ? "What's in this image?" : "");
 
-        // Add user message first
         addChat("user", currentPrompt, selectedImage);
 
         try {
-            // Get AI response
             const response = await run(currentPrompt, history, selectedImage);
             
-            // Add AI response
             if (response) {
                 addChat("model", response);
             } else {
@@ -52,13 +48,12 @@ export default function Home() {
         } finally {
             setTyping(false);
             setUserPrompt("");
-            setSelectedImage(null); // Clear the selected image after sending
+            setSelectedImage(null);
         }
     };
 
     const handlePaste = async () => {
         try {
-            // First try to read image from clipboard
             const clipboardItems = await navigator.clipboard.read();
             for (const item of clipboardItems) {
                 const imageType = item.types.find(type => type.startsWith('image/'));
@@ -69,30 +64,19 @@ export default function Home() {
                         setSelectedImage(reader.result as string);
                     };
                     reader.readAsDataURL(blob);
-                    return; // Exit if we found and handled an image
+                    return;
                 }
             }
 
-            // If no image found, try to read text
             const text = await navigator.clipboard.readText();
             if (text) {
                 setUserPrompt(prev => prev + text);
             }
         } catch (err) {
-            // Fallback to legacy clipboard API
             try {
-                const items = (await navigator.clipboard.read())[0].types;
-                const hasImage = items.some(type => type.startsWith('image/'));
-                
-                if (hasImage) {
-                    // Trigger paste event for image
-                    document.execCommand('paste');
-                } else {
-                    // Try to get text
-                    const text = await navigator.clipboard.readText();
-                    if (text) {
-                        setUserPrompt(prev => prev + text);
-                    }
+                const text = await navigator.clipboard.readText();
+                if (text) {
+                    setUserPrompt(prev => prev + text);
                 }
             } catch (fallbackErr) {
                 console.error('Clipboard access failed:', fallbackErr);
@@ -100,7 +84,6 @@ export default function Home() {
         }
     };
 
-    // Add a paste event listener for handling images
     useEffect(() => {
         const handleGlobalPaste = (e: ClipboardEvent) => {
             const items = e.clipboardData?.items;
@@ -143,96 +126,89 @@ export default function Home() {
                 </div>
             </div>
 
-           <div className="w-full bg-[#111827] border-t border-gray-800/40">
-    <div className="max-w-4xl mx-auto p-2 md:p-4">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-            <div className="flex items-end gap-2">
-                <ImageUpload 
-                    onImageSelect={setSelectedImage} 
-                    selectedImage={selectedImage}
-                />
-                <div className="flex-grow relative group">
-                    <textarea
-                        ref={textareaRef}
-                        autoFocus
-                        value={userPrompt}
-                        onChange={(e) => setUserPrompt(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                handleSubmit(e);
-                            }
-                        }}
-                        className="w-full p-3 bg-[#2c2c2c] text-white outline-none resize-none 
-                                transition-colors duration-200 pr-10
-                                border border-gray-700/50 focus:border-blue-500/50 hover:border-gray-600/50
-                                text-sm md:text-base rounded-lg"
-                        placeholder="Ask Me Anything [ © Sagar Bhusal]"
-                        disabled={typing}
-                        rows={1}
-                        style={{ 
-                            maxHeight: "200px", 
-                            overflowY: "auto",
-                            minHeight: "44px" // Added to maintain consistent height
-                        }}
-                    />
-                    <button
-                        type="button"
-                        onClick={handlePaste}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 
-                                transition-all duration-200 p-1.5 rounded-md
-                                opacity-50 group-hover:opacity-100 
-                                hover:text-white hover:scale-110
-                                hover:bg-gray-700/30 active:scale-95
-                                transform origin-center"
-                        title="Paste Text (Ctrl/Cmd + V)"
-                    >
-                        <FiClipboard className="text-xl" />
-                    </button>
-                </div>
-                <button
-                    type="submit"
-                    className={`p-3 rounded-lg flex items-center justify-center transition-colors duration-200 self-stretch
-                            ${typing || (!userPrompt.trim() && !selectedImage) 
-                                ? "bg-red-300 cursor-not-allowed opacity-50" 
-                                : "bg-red-600 hover:bg-red-700"}`}
-                    disabled={typing || (!userPrompt.trim() && !selectedImage)}
-                >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-                         className="transition-transform duration-200 hover:rotate-12">
-                        <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                </button>
-            </div>
-            {/* Image preview section */}
-            {selectedImage && (
-                <div className="mt-2 flex items-start gap-2 animate-slide-up">
-                    <div className="h-8 w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center
-                                transform hover:scale-105 transition-transform duration-200">
-                        <FiImage className="text-lg text-gray-400" />
-                    </div>
-                    <div className="relative w-fit group">
-                        <img 
-                            src={selectedImage} 
-                            alt="Selected" 
-                            className="max-h-32 rounded-lg transition-transform duration-200 group-hover:scale-[1.02]"
-                        />
-                        <button
-                            onClick={() => setSelectedImage(null)}
-                            className="absolute -top-1.5 -right-1.5 bg-[#111827] rounded-full p-1.5
-                                     hover:bg-[#2c2c2c] transition-all duration-200
-                                     opacity-100 group-hover:opacity-100 hover:scale-110
-                                     transform hover:rotate-90"
-                            aria-label="Remove image"
-                        >
-                            <FiX className="text-gray-400 text-sm" />
-                        </button>
-                    </div>
-                </div>
-            )}
-        </form>
-    </div>
-</div>
-    );
-}
+            <div className="w-full bg-[#111827] border-t border-gray-800/40">
+                <div className="max-w-4xl mx-auto p-2 md:p-4">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                        <div className="flex items-end gap-2">
+                            <ImageUpload 
+                                onImageSelect={setSelectedImage} 
+                                selectedImage={selectedImage}
+                            />
+                            <div className="flex-grow relative group">
+                                <textarea
+                                    ref={textareaRef}
+                                    autoFocus
+                                    value={userPrompt}
+                                    onChange={(e) => setUserPrompt(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && !e.shiftKey) {
+                                            e.preventDefault();
+                                            handleSubmit(e);
+                                        }
+                                    }}
+                                    className="w-full p-3 bg-[#2c2c2c] text-white outline-none resize-none 
+                                            transition-colors duration-200 pr-10
+                                            border border-gray-700/50 focus:border-blue-500/50 hover:border-gray-600/50
+                                            text-sm md:text-base rounded-lg"
+                                    placeholder="Ask Me Anything [ © Sagar Bhusal]"
+                                    disabled={typing}
+                                    rows={1}
+                                    style={{ 
+                                        maxHeight: "200px", 
+                                        overflowY: "auto",
+                                        minHeight: "44px" 
+                                    }}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={handlePaste}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 
+                                            transition-all duration-200 p-1.5 rounded-md
+                                            opacity-50 group-hover:opacity-100 
+                                            hover:text-white hover:scale-110
+                                            hover:bg-gray-700/30 active:scale-95
+                                            transform origin-center"
+                                    title="Paste Text (Ctrl/Cmd + V)"
+                                >
+                                    <FiClipboard className="text-xl" />
+                                </button>
+                            </div>
+                            <button
+                                type="submit"
+                                className={`p-3 rounded-lg flex items-center justify-center transition-colors duration-200 self-stretch
+                                        ${typing || (!userPrompt.trim() && !selectedImage) 
+                                            ? "bg-red-300 cursor-not-allowed opacity-50" 
+                                            : "bg-red-600 hover:bg-red-700"}`}
+                                disabled={typing || (!userPrompt.trim() && !selectedImage)}
+                            >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
+                                    className="transition-transform duration-200 hover:rotate-12">
+                                    <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        {selectedImage && (
+                            <div className="mt-2 flex items-start gap-2 animate-slide-up">
+                                <div className="h-8 w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center
+                                            transform hover:scale-105 transition-transform duration-200">
+                                    <FiImage className="text-lg text-gray-400" />
+                                </div>
+                                <div className="relative w-fit group">
+                                    <img 
+                                        src={selectedImage} 
+                                        alt="Selected" 
+                                        className="max-h-32 rounded-lg transition-transform duration-200 group-hover:scale-[1.02]"
+                                    />
+                                    <button
+                                        onClick={() => setSelectedImage(null)}
+                                        className="absolute -top-1.5 -right-1.5 bg-[#111827] rounded-full p-1.5
+                                                hover:bg-[#2c2c2c] transition-all duration-200
+                                                opacity-100 group-hover:opacity-100 hover:scale-110
+                                                transform hover:rotate-90"
+                                        aria-label="Remove image"
+                                    >
+                                        <FiX className="text-gray-400 text-sm" />
+                                    </button>
+                                </div
