@@ -6,7 +6,7 @@ import { run } from "@/utils/action";
 import { useState, useRef, useEffect } from "react";
 import ImageUpload from '@/components/ImageUpload';
 import { Chat } from "@/types/chat";
-import { FiX, FiImage } from 'react-icons/fi';
+import { FiX, FiImage, FiClipboard } from 'react-icons/fi';
 
 export default function Home() {
     const [userPrompt, setUserPrompt] = useState("");
@@ -56,6 +56,17 @@ export default function Home() {
         }
     };
 
+    const handlePaste = async () => {
+        try {
+            const text = await navigator.clipboard.readText();
+            if (text) {
+                setUserPrompt(prev => prev + text);
+            }
+        } catch (err) {
+            console.error('Failed to read clipboard contents: ', err);
+        }
+    };
+
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
@@ -89,12 +100,20 @@ export default function Home() {
                                         handleSubmit(e);
                                     }
                                 }}
-                                className="w-full p-3 rounded-lg bg-[#2c2c2c] text-white outline-none resize-none transition-all duration-300 ease-in-out"
+                                className="w-full p-3 rounded-lg bg-[#2c2c2c] text-white outline-none resize-none transition-all duration-300 ease-in-out pr-10"
                                 placeholder="Ask Me Anything [ © Sagar Bhusal]"
                                 disabled={typing}
                                 rows={1}
                                 style={{ maxHeight: "200px", overflowY: "auto" }}
                             />
+                            <button
+                                type="button"
+                                onClick={handlePaste}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors p-1"
+                                title="Paste Text (Ctrl/Cmd + V)"
+                            >
+                                <FiClipboard className="text-xl" />
+                            </button>
                         </div>
                         <button
                             type="submit"
