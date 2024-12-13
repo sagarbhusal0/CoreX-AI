@@ -217,7 +217,7 @@ export default function Home() {
             </div>
             <button
                 onClick={() => setSelectedImage(null)}
-                className="absolute top-1 right-1 bg-[#111827] rounded-full p-1 sm:p-1.5
+                className="absolute top-1 right-1  rounded-full p-1 sm:p-1.5
                          hover:bg-[#2c2c2c] transition-colors duration-200
                          z-10"
                 aria-label="Remove image"
