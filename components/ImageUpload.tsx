@@ -56,15 +56,15 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
                 accept="image/*"
                 className="hidden"
             />
-            <div className="flex gap-2 bg-[#2c2c2c] p-3 rounded-lg">
+            <div className="flex gap-2 bg-[#2c2c2c] p-2.5 sm:p-3 rounded-lg w-full sm:w-auto">
                 <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center text-gray-400 hover:text-white transition-colors"
+                    className="flex items-center justify-center w-full sm:w-auto text-gray-400 hover:text-white transition-colors"
                     aria-label="Upload Image"
                     title="Upload Image"
                 >
-                    <FiUpload className="text-xl" />
+                    <FiUpload className="text-lg sm:text-xl" />
                 </button>
             </div>
         </div>
