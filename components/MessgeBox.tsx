@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { FiMessageSquare } from 'react-icons/fi';
+import { FiMessageSquare, FiCopy, FiCheck } from 'react-icons/fi';
 import CodeHighlighter from './CodeHighlighter';
 import { Chat } from "@/types/chat";
 
@@ -12,6 +12,7 @@ interface ChatProps {
 const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [copied, setCopied] = useState(false);
   const typingSpeed = 15; // Faster typing speed (was 30)
   
   useEffect(() => {
@@ -39,6 +40,16 @@ const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
     }
   }, [chats.parts, chats.role, isLatestMessage]);
 
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(chats.parts);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text:', err);
+    }
+  };
+
   return (
     <div className={`flex gap-4 p-4 rounded-lg transition-all duration-300 ease-in-out 
         ${chats.role === "user" ? "bg-green-200 hover:shadow-lg" : "bg-purple-300 hover:shadow-lg"}`}>
@@ -58,10 +69,24 @@ const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
         )}
       </div>
 
-      <div>
-        <span className='font-semibold text-gray-700 mb-2 block'>
-          {chats.role === "user" ? "You" : "CoreX AI"}
-        </span>
+      <div className="flex-1">
+        <div className="flex justify-between items-center mb-2">
+          <span className='font-semibold text-gray-700'>
+            {chats.role === "user" ? "You" : "CoreX AI"}
+          </span>
+          {chats.role === "model" && !isTyping && (
+            <button
+              onClick={handleCopy}
+              className={`p-2 rounded-md transition-all duration-200 
+                ${copied 
+                  ? 'bg-green-500 text-white' 
+                  : 'hover:bg-gray-200 text-gray-600 hover:text-gray-800'}`}
+              title={copied ? "Copied!" : "Copy response"}
+            >
+              {copied ? <FiCheck /> : <FiCopy />}
+            </button>
+          )}
+        </div>
         {chats.image && (
           <img 
             src={chats.image} 
