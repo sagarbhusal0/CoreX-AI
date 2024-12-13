@@ -17,38 +17,37 @@ const CodeHighlighter = ({ language, children }: CodeHighlighterProps) => {
             navigator.clipboard.writeText(textToCopy)
                 .then(() => {
                     setCopied(true);
-                    setTimeout(() => {
-                        setCopied(false);
-                    }, 3000);
+                    setTimeout(() => setCopied(false), 3000);
                 })
-                .catch(err => {
-                    console.error("Something went wrong");
-                });
+                .catch(err => console.error("Failed to copy:", err));
         }
     };
 
     return (
-        <div className='bg-[#1e1e1e] my-4 overflow-hidden w-full rounded-lg shadow-lg'>
-            <div className='rounded-t-lg flex items-center justify-between p-3 bg-[#1e1e1e] border-b border-gray-700'>
+        <div className='bg-[#1e1e1e] my-4 rounded-lg shadow-lg overflow-hidden w-full'>
+            <div className='flex items-center justify-between p-2 bg-[#1e1e1e] border-b border-gray-700'>
                 <span className='text-gray-400 text-sm'>{language}</span>
                 <button
                     onClick={() => copyToClipboard(children)}
                     disabled={copied}
-                    className={`text-sm px-4 py-2 rounded transition-all duration-300 ease-in-out 
+                    className={`text-sm px-3 py-1 rounded transition-all duration-300 ease-in-out 
                         ${copied ? 'bg-green-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white'}`}
                 >
-                    {copied ? (
-                        <span className="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                            Copied
-                        </span>
-                    ) : 'Copy'}
+                    {copied ? 'Copied!' : 'Copy'}
                 </button>
             </div>
-            <div className='-mt-1'>
-                <SyntaxHighlighter style={xonokai} language={language} className="rounded-b-lg">
+            <div className='overflow-x-auto'>
+                <SyntaxHighlighter 
+                    style={xonokai} 
+                    language={language} 
+                    className="rounded-b-lg"
+                    customStyle={{
+                        margin: 0,
+                        padding: '1rem',
+                        fontSize: '0.9rem',
+                    }}
+                    wrapLongLines={true}
+                >
                     {children}
                 </SyntaxHighlighter>
             </div>

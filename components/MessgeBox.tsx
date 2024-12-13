@@ -69,7 +69,7 @@ const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
         )}
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <div className="flex justify-between items-center mb-2">
           <span className='font-semibold text-gray-700'>
             {chats.role === "user" ? "You" : "CoreX AI"}
@@ -77,7 +77,7 @@ const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
           {chats.role === "model" && !isTyping && (
             <button
               onClick={handleCopy}
-              className={`p-2 rounded-md transition-all duration-200 
+              className={`p-2 rounded-md transition-all duration-200 shrink-0 ml-2
                 ${copied 
                   ? 'bg-green-500 text-white' 
                   : 'hover:bg-gray-200 text-gray-600 hover:text-gray-800'}`}
@@ -91,31 +91,30 @@ const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
           <img 
             src={chats.image} 
             alt="Uploaded content"
-            className="max-w-sm rounded-lg mb-4 shadow-lg"
+            className="max-w-full rounded-lg mb-4 shadow-lg"
           />
         )}
         <ReactMarkdown
-          className="flex flex-col gap-4 text-gray-800"
+          className="flex flex-col gap-4 text-gray-800 overflow-hidden"
           components={{
             code({ children, inline, className, ...props }: any) {
               const match = /language-(\w+)/.exec(className || '');
-              let language;
+              let language = match?.[1] || "jsx";
 
-              if (match && match[1]) {
-                language = match[1];
-              } else {
-                language = "jsx";
-              }
-
-              return !inline && match ? (
-                <CodeHighlighter language={language}>
-                  {children}
-                </CodeHighlighter>
+              return !inline ? (
+                <div className="max-w-full overflow-x-auto">
+                  <CodeHighlighter language={language}>
+                    {children}
+                  </CodeHighlighter>
+                </div>
               ) : (
                 <code className='bg-gray-800 text-white px-2 py-[1px] rounded'>
                   {children}
                 </code>
               );
+            },
+            pre({ children }) {
+              return <div className="max-w-full overflow-x-auto">{children}</div>;
             }
           }}
         >
