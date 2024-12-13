@@ -193,10 +193,11 @@ export default function Home() {
                             </div>
                             <button
                                 type="submit"
-                                className={`p-3 rounded-lg flex items-center justify-center transition-all duration-200 self-stretch
-                                        ${isApiResponding || (!userPrompt.trim() && !selectedImage)
-                                            ? "bg-red-300 cursor-not-allowed opacity-50 shake-animation-container" 
-                                            : "bg-red-600 hover:bg-red-700"}`}
+                                className={`p-3 rounded-lg flex items-center justify-center transition-all duration-200 
+                                    ${isApiResponding || (!userPrompt.trim() && !selectedImage)
+                                        ? "bg-gray-600 cursor-not-allowed" 
+                                        : "bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 active:scale-95"}
+                                    relative overflow-hidden group`}
                                 disabled={isApiResponding || (!userPrompt.trim() && !selectedImage)}
                                 onClick={(e) => {
                                     if (isApiResponding) {
@@ -209,8 +210,25 @@ export default function Home() {
                                     }
                                 }}
                             >
-                                <FiSend className={`text-xl transition-transform duration-200 
-                                    ${isApiResponding ? 'opacity-50' : 'hover:rotate-12'}`} />
+                                <div className={`absolute inset-0 bg-gradient-to-r from-red-600 to-red-700 
+                                    transition-opacity duration-200 opacity-0 group-hover:opacity-100`} />
+                                
+                                <FiSend 
+                                    className={`text-xl relative z-10 transform transition-all duration-200
+                                        ${isApiResponding 
+                                            ? 'opacity-50' 
+                                            : 'group-hover:rotate-12 group-hover:scale-110'}`}
+                                />
+                                
+                                {isApiResponding && (
+                                    <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+                                        <div className="flex gap-1">
+                                            <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
+                                            <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                                            <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
+                                        </div>
+                                    </div>
+                                )}
                             </button>
                         </div>
 
