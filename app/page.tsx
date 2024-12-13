@@ -163,10 +163,11 @@ export default function Home() {
                                             handleSubmit(e);
                                         }
                                     }}
-                                    className="w-full p-3 rounded-lg bg-[#2c2c2c] text-white outline-none resize-none 
+                                    className={`w-full p-3 bg-[#2c2c2c] text-white outline-none resize-none 
                                              transition-colors duration-200 pr-10
                                              border border-gray-700/50 focus:border-blue-500/50 hover:border-gray-600/50
-                                             text-sm md:text-base"
+                                             text-sm md:text-base
+                                             ${selectedImage ? 'rounded-t-lg border-b-0' : 'rounded-lg'}`}
                                     placeholder="Ask Me Anything [ © Sagar Bhusal]"
                                     disabled={typing}
                                     rows={1}
@@ -202,12 +203,12 @@ export default function Home() {
                             </button>
                         </div>
                         {selectedImage && (
-                            <div className="mt-2 flex items-start gap-2 animate-slide-up overflow-hidden">
-                                <div className="h-8 w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center flex-shrink-0">
+                            <div className="mt-2 flex items-start gap-2 animate-slide-up overflow-hidden bg-[#2c2c2c] rounded-lg p-3">
+                                <div className="h-8 w-8 rounded-full bg-[#1e1e1e] flex items-center justify-center flex-shrink-0">
                                     <FiImage className="text-lg text-gray-400" />
                                 </div>
                                 <div className="relative min-w-0 flex-1">
-                                    <div className="max-w-full overflow-hidden rounded-lg">
+                                    <div className="max-w-full overflow-hidden">
                                         <img 
                                             src={selectedImage} 
                                             alt="Selected" 
@@ -216,7 +217,7 @@ export default function Home() {
                                     </div>
                                     <button
                                         onClick={() => setSelectedImage(null)}
-                                        className="absolute -top-1.5 -right-1.5 bg-[#111827] rounded-full p-1.5
+                                        className="absolute -top-2 -right-2 bg-[#111827] rounded-full p-1.5
                                                  hover:bg-[#2c2c2c] transition-colors duration-200
                                                  opacity-0 group-hover:opacity-100 sm:opacity-100
                                                  z-10"
