@@ -151,46 +151,57 @@ export default function Home() {
                                 onImageSelect={setSelectedImage} 
                                 selectedImage={selectedImage}
                             />
-                            
-
-<div className="flex-grow relative group">
-    <textarea
-        ref={textareaRef}
-        autoFocus
-        value={userPrompt}
-        onChange={(e) => setUserPrompt(e.target.value)}
-        onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSubmit(e);
-            }
-        }}
-        className={`w-full p-3 bg-[#2c2c2c] text-white outline-none resize-none 
-                 transition-colors duration-200 pr-10
-                 border border-gray-700/50 focus:border-blue-500/50 hover:border-gray-600/50
-                 text-sm md:text-base rounded-lg`} // Removed conditional border radius
-        placeholder="Ask Me Anything [ © Sagar Bhusal]"
-        disabled={typing}
-        rows={1}
-        style={{ maxHeight: "200px", overflowY: "auto" }}
-    />
-    <button
-        type="button"
-        onClick={handlePaste}
-        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 
-                 transition-all duration-200 p-1.5 rounded-md
-                 opacity-50 group-hover:opacity-100 
-                 hover:text-white hover:scale-110
-                 hover:bg-gray-700/30 active:scale-95
-                 transform origin-center"
-        title="Paste Text (Ctrl/Cmd + V)"
-    >
-        <FiClipboard className="text-xl" />
-    </button>
-</div>
-
-
-                   
+                            <div className="flex-grow relative group">
+                                <textarea
+                                    ref={textareaRef}
+                                    autoFocus
+                                    value={userPrompt}
+                                    onChange={(e) => setUserPrompt(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && !e.shiftKey) {
+                                            e.preventDefault();
+                                            handleSubmit(e);
+                                        }
+                                    }}
+                                    className={`w-full p-3 bg-[#2c2c2c] text-white outline-none resize-none 
+                                             transition-colors duration-200 pr-10
+                                             border border-gray-700/50 focus:border-blue-500/50 hover:border-gray-600/50
+                                             text-sm md:text-base
+                                             ${selectedImage ? 'rounded-t-lg border-b-0' : 'rounded-lg'}`}
+                                    placeholder="Ask Me Anything [ © Sagar Bhusal]"
+                                    disabled={typing}
+                                    rows={1}
+                                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={handlePaste}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 
+                                             transition-all duration-200 p-1.5 rounded-md
+                                             opacity-50 group-hover:opacity-100 
+                                             hover:text-white hover:scale-110
+                                             hover:bg-gray-700/30 active:scale-95
+                                             transform origin-center"
+                                    title="Paste Text (Ctrl/Cmd + V)"
+                                >
+                                    <FiClipboard className="text-xl" />
+                                </button>
+                            </div>
+                            <button
+                                type="submit"
+                                className={`p-3 rounded-lg flex items-center justify-center transition-colors duration-200
+                                        ${typing || (!userPrompt.trim() && !selectedImage) 
+                                            ? "bg-red-300 cursor-not-allowed opacity-50" 
+                                            : "bg-red-600 hover:bg-red-700"}`}
+                                disabled={typing || (!userPrompt.trim() && !selectedImage)}
+                            >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
+                                     className="transition-transform duration-200 hover:rotate-12">
+                                    <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
                         {selectedImage && (
                         <div className="mt-2 flex items-start gap-2 animate-slide-up">
                             <div className="h-8 w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center
