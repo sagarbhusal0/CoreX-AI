@@ -58,14 +58,74 @@ export default function Home() {
 
     const handlePaste = async () => {
         try {
+            // First try to read image from clipboard
+            const clipboardItems = await navigator.clipboard.read();
+            for (const item of clipboardItems) {
+                const imageType = item.types.find(type => type.startsWith('image/'));
+                if (imageType) {
+                    const blob = await item.getType(imageType);
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        setSelectedImage(reader.result as string);
+                    };
+                    reader.readAsDataURL(blob);
+                    return; // Exit if we found and handled an image
+                }
+            }
+
+            // If no image found, try to read text
             const text = await navigator.clipboard.readText();
             if (text) {
                 setUserPrompt(prev => prev + text);
             }
         } catch (err) {
-            console.error('Failed to read clipboard contents: ', err);
+            // Fallback to legacy clipboard API
+            try {
+                const items = (await navigator.clipboard.read())[0].types;
+                const hasImage = items.some(type => type.startsWith('image/'));
+                
+                if (hasImage) {
+                    // Trigger paste event for image
+                    document.execCommand('paste');
+                } else {
+                    // Try to get text
+                    const text = await navigator.clipboard.readText();
+                    if (text) {
+                        setUserPrompt(prev => prev + text);
+                    }
+                }
+            } catch (fallbackErr) {
+                console.error('Clipboard access failed:', fallbackErr);
+            }
         }
     };
+
+    // Add a paste event listener for handling images
+    useEffect(() => {
+        const handleGlobalPaste = (e: ClipboardEvent) => {
+            const items = e.clipboardData?.items;
+            if (!items) return;
+
+            for (const item of items) {
+                if (item.type.indexOf('image') !== -1) {
+                    const file = item.getAsFile();
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                            setSelectedImage(reader.result as string);
+                        };
+                        reader.readAsDataURL(file);
+                        break;
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('paste', handleGlobalPaste);
+        return () => {
+            document.removeEventListener('paste', handleGlobalPaste);
+        };
+    }, []);
 
     useEffect(() => {
         if (textareaRef.current) {
