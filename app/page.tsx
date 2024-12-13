@@ -212,3 +212,11 @@ export default function Home() {
                                         <FiX className="text-gray-400 text-sm" />
                                     </button>
                                 </div>
+                            </div>
+                        )}
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+}
