@@ -12,7 +12,10 @@ const Chats = ({ history }: ChatProps) => {
             {
                 history.map((chats, i) => (
                     <div key={i} className='text-white'>
-                        <MessgeBox chats={chats} />
+                        <MessgeBox 
+                            chats={chats} 
+                            isLatestMessage={i === history.length - 1}
+                        />
                         <div className='bg-gray-600 h-[1px] bg-opacity-40 w-[90%] mx-auto my-6' />
                     </div>
                 ))

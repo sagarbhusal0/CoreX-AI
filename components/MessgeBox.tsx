@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { FiMessageSquare } from 'react-icons/fi';
 import CodeHighlighter from './CodeHighlighter';
@@ -6,9 +6,38 @@ import { Chat } from "@/types/chat";
 
 interface ChatProps {
   chats: Chat;
+  isLatestMessage?: boolean;
 }
 
-const MessgeBox = ({ chats }: ChatProps) => {
+const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
+  const [displayText, setDisplayText] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const typingSpeed = 30; // Milliseconds per character
+  
+  useEffect(() => {
+    if (chats.role === 'model' && isLatestMessage) {
+      setIsTyping(true);
+      let currentText = '';
+      const textToType = chats.parts;
+      let currentIndex = 0;
+
+      const typingInterval = setInterval(() => {
+        if (currentIndex < textToType.length) {
+          currentText += textToType[currentIndex];
+          setDisplayText(currentText);
+          currentIndex++;
+        } else {
+          clearInterval(typingInterval);
+          setIsTyping(false);
+        }
+      }, typingSpeed);
+
+      return () => clearInterval(typingInterval);
+    } else {
+      setDisplayText(chats.parts);
+    }
+  }, [chats.parts, chats.role, isLatestMessage]);
+
   return (
     <div className={`flex gap-4 p-4 rounded-lg transition-all duration-300 ease-in-out 
         ${chats.role === "user" ? "bg-green-200 hover:shadow-lg" : "bg-purple-300 hover:shadow-lg"}`}>
@@ -60,8 +89,15 @@ const MessgeBox = ({ chats }: ChatProps) => {
             }
           }}
         >
-          {chats.parts}
+          {displayText}
         </ReactMarkdown>
+        {isTyping && (
+          <div className="mt-2">
+            <span className="inline-block w-2 h-2 bg-gray-600 rounded-full animate-pulse mr-1"></span>
+            <span className="inline-block w-2 h-2 bg-gray-600 rounded-full animate-pulse mr-1" style={{ animationDelay: '0.2s' }}></span>
+            <span className="inline-block w-2 h-2 bg-gray-600 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+          </div>
+        )}
       </div>
     </div>
   );
