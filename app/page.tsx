@@ -212,7 +212,7 @@ export default function Home() {
                                         <img 
                                             src={selectedImage} 
                                             alt="Selected" 
-                                            className="max-w-[150px] sm:max-w-[250px] md:max-w-[300px] h-auto rounded-lg object-contain"
+                                            className="max-w-[120px] sm:max-w-[180px] md:max-w-[220px] h-auto rounded-lg object-contain"
                                         />
                                     </div>
                                     <button
