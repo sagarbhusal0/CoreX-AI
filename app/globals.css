@@ -172,3 +172,49 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #6b7280;
 }
+
+/* Add these new animations */
+@keyframes pulse-slow {
+    0% {
+        transform: translateY(-50%) scale(1);
+    }
+    50% {
+        transform: translateY(-50%) scale(1.05);
+    }
+    100% {
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+@keyframes bounce-subtle {
+    0%, 100% {
+        transform: translateY(-50%);
+    }
+    50% {
+        transform: translateY(-45%);
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 2s ease-in-out infinite;
+}
+
+.animate-bounce-subtle {
+    animation: bounce-subtle 1s ease-in-out infinite;
+}
+
+/* Add hover state animation override */
+.group:hover .animate-pulse-slow {
+    animation: bounce-subtle 1s ease-in-out infinite;
+}
+
+/* Add focus styles for better accessibility */
+button:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+}
+
+/* Add active state animation */
+.active-scale {
+    transform: scale(0.95);
+}

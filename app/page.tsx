@@ -113,11 +113,16 @@ export default function Home() {
                             <button
                                 type="button"
                                 onClick={handlePaste}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors p-1
-                                         opacity-50 group-hover:opacity-100 hover:scale-110 transform duration-200"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 
+                                         transition-all duration-300 ease-in-out p-1.5 rounded-md
+                                         opacity-50 group-hover:opacity-100 
+                                         hover:text-white hover:scale-110 hover:rotate-6
+                                         hover:bg-gray-700/30 active:scale-95
+                                         transform origin-center
+                                         animate-pulse-slow group-hover:animate-none"
                                 title="Paste Text (Ctrl/Cmd + V)"
                             >
-                                <FiClipboard className="text-xl" />
+                                <FiClipboard className="text-xl transition-transform" />
                             </button>
                         </div>
                         <button
