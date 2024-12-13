@@ -202,21 +202,24 @@ export default function Home() {
                             </button>
                         </div>
                         {selectedImage && (
-                            <div className="mt-2 flex items-start gap-2 animate-slide-up">
-                                <div className="h-8 w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center">
+                            <div className="mt-2 flex items-start gap-2 animate-slide-up overflow-hidden">
+                                <div className="h-8 w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center flex-shrink-0">
                                     <FiImage className="text-lg text-gray-400" />
                                 </div>
-                                <div className="relative w-fit group">
-                                    <img 
-                                        src={selectedImage} 
-                                        alt="Selected" 
-                                        className="max-w-[200px] md:max-w-[300px] rounded-lg object-contain"
-                                    />
+                                <div className="relative min-w-0 flex-1">
+                                    <div className="max-w-full overflow-hidden rounded-lg">
+                                        <img 
+                                            src={selectedImage} 
+                                            alt="Selected" 
+                                            className="max-w-full h-auto rounded-lg object-contain"
+                                        />
+                                    </div>
                                     <button
                                         onClick={() => setSelectedImage(null)}
                                         className="absolute -top-1.5 -right-1.5 bg-[#111827] rounded-full p-1.5
                                                  hover:bg-[#2c2c2c] transition-colors duration-200
-                                                 opacity-0 group-hover:opacity-100 sm:opacity-100"
+                                                 opacity-0 group-hover:opacity-100 sm:opacity-100
+                                                 z-10"
                                         aria-label="Remove image"
                                     >
                                         <FiX className="text-gray-400 text-sm" />
