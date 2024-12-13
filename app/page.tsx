@@ -14,6 +14,7 @@ export default function Home() {
     const [history, setHistory] = useState<Chat[]>([]);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [isApiResponding, setIsApiResponding] = useState(false);
 
     const addChat = (role: Chat["role"], parts: string, image?: string | null) => {
         const newChat: Chat = { 
@@ -27,8 +28,10 @@ export default function Home() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!userPrompt.trim() && !selectedImage) return;
+        if (isApiResponding) return;
 
         setTyping(true);
+        setIsApiResponding(true);
         
         const currentPrompt = userPrompt.trim() || (selectedImage ? "What's in this image?" : "");
 
@@ -47,6 +50,7 @@ export default function Home() {
             addChat("model", "I apologize, but I encountered an error. Please try again.");
         } finally {
             setTyping(false);
+            setIsApiResponding(false);
             setUserPrompt("");
             setSelectedImage(null);
         }
@@ -143,15 +147,18 @@ export default function Home() {
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter' && !e.shiftKey) {
                                             e.preventDefault();
-                                            handleSubmit(e);
+                                            if (!isApiResponding) {
+                                                handleSubmit(e);
+                                            }
                                         }
                                     }}
-                                    className="w-full p-3 bg-[#2c2c2c] text-white outline-none resize-none 
+                                    className={`w-full p-3 bg-[#2c2c2c] text-white outline-none resize-none 
                                             transition-colors duration-200 pr-10
                                             border border-gray-700/50 focus:border-blue-500/50 hover:border-gray-600/50
-                                            text-sm md:text-base rounded-lg"
-                                    placeholder="Ask Me Anything [ © Sagar Bhusal]"
-                                    disabled={typing}
+                                            text-sm md:text-base rounded-lg
+                                            ${isApiResponding ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    placeholder={isApiResponding ? "Please wait for response..." : "Ask Me Anything [ © Sagar Bhusal]"}
+                                    disabled={isApiResponding}
                                     rows={1}
                                     style={{ 
                                         maxHeight: "200px", 
@@ -176,13 +183,14 @@ export default function Home() {
                             <button
                                 type="submit"
                                 className={`p-3 rounded-lg flex items-center justify-center transition-colors duration-200 self-stretch
-                                        ${typing || (!userPrompt.trim() && !selectedImage) 
+                                        ${isApiResponding || (!userPrompt.trim() && !selectedImage)
                                             ? "bg-red-300 cursor-not-allowed opacity-50" 
                                             : "bg-red-600 hover:bg-red-700"}`}
-                                disabled={typing || (!userPrompt.trim() && !selectedImage)}
+                                disabled={isApiResponding || (!userPrompt.trim() && !selectedImage)}
                             >
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" 
-                                    className="transition-transform duration-200 hover:rotate-12">
+                                    className={`transition-transform duration-200 hover:rotate-12 
+                                        ${isApiResponding ? 'opacity-50' : ''}`}>
                                     <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                     <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>

@@ -12,25 +12,26 @@ interface ChatProps {
 const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const typingSpeed = 30; // Milliseconds per character
+  const typingSpeed = 15; // Faster typing speed (was 30)
   
   useEffect(() => {
     if (chats.role === 'model' && isLatestMessage) {
       setIsTyping(true);
+      setDisplayText(''); // Clear previous text
       let currentText = '';
-      const textToType = chats.parts;
-      let currentIndex = 0;
+      const words = chats.parts.split(' ');
+      let currentWordIndex = 0;
 
       const typingInterval = setInterval(() => {
-        if (currentIndex < textToType.length) {
-          currentText += textToType[currentIndex];
+        if (currentWordIndex < words.length) {
+          currentText += words[currentWordIndex] + ' ';
           setDisplayText(currentText);
-          currentIndex++;
+          currentWordIndex++;
         } else {
           clearInterval(typingInterval);
           setIsTyping(false);
         }
-      }, typingSpeed);
+      }, typingSpeed * 15); // Adjust timing for word-by-word typing
 
       return () => clearInterval(typingInterval);
     } else {
