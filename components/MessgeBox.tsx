@@ -42,14 +42,18 @@ const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
   return (
     <div className={`flex gap-4 p-4 rounded-lg transition-all duration-300 ease-in-out 
         ${chats.role === "user" ? "bg-green-200 hover:shadow-lg" : "bg-purple-300 hover:shadow-lg"}`}>
-      <div className='h-12 w-12 rounded-full flex items-center justify-center text-white text-lg shadow-md'>
+      <div className='min-w-[48px] h-12 rounded-full flex items-center justify-center text-white text-lg shadow-md
+          overflow-hidden bg-white'>
         {chats.role === "user" ? (
-          <FiMessageSquare className="text-gray-500" />
+          <div className="h-full w-full flex items-center justify-center bg-green-200">
+            <FiMessageSquare className="text-gray-500 text-xl" />
+          </div>
         ) : (
           <img
             src='https://i.ibb.co/B2zTrYK/favicon-removebg-preview.png'
             alt='Model Avatar'
-            className='h-12 w-12 rounded-full object-cover transition-transform duration-300 hover:scale-110'
+            className='h-full w-full object-contain p-1 transition-transform duration-300 
+              hover:scale-110'
           />
         )}
       </div>
