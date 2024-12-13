@@ -13,7 +13,7 @@ const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [copied, setCopied] = useState(false);
-  const typingSpeed = 8; 
+  const typingSpeed = 9; 
   
   useEffect(() => {
     if (chats.role === 'model' && isLatestMessage) {
@@ -32,7 +32,7 @@ const MessgeBox = ({ chats, isLatestMessage }: ChatProps) => {
           clearInterval(typingInterval);
           setIsTyping(false);
         }
-      }, typingSpeed * 8); 
+      }, typingSpeed * 9); 
 
       return () => clearInterval(typingInterval);
     } else {
