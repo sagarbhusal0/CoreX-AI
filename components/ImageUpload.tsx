@@ -76,7 +76,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
     };
 
     return (
-        <div className="flex items-stretch gap-2">
+        <div className="flex items-stretch">
             <input
                 type="file"
                 ref={fileInputRef}
@@ -84,7 +84,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, selectedImage 
                 accept="image/*"
                 className="hidden"
             />
-            <div className="flex gap-1 bg-[#2c2c2c] p-3 rounded-lg">
+            <div className="flex gap-2 bg-[#2c2c2c] p-3 rounded-lg">
                 <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}

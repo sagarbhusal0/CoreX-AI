@@ -70,7 +70,7 @@ export default function Home() {
                 {typing && <Typing typing={typing} />}
             </div>
 
-            <div className="w-full p-4">
+            <div className="w-full p-4 bg-[#1a1a1a]">
                 <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex flex-col gap-2">
                     <div className="flex items-end gap-2">
                         <ImageUpload 
@@ -89,7 +89,7 @@ export default function Home() {
                                         handleSubmit(e);
                                     }
                                 }}
-                                className="w-full p-3 rounded-lg bg-[#2c2c2c] text-white outline-none resize-none shadow-md focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out"
+                                className="w-full p-3 rounded-lg bg-[#2c2c2c] text-white outline-none resize-none transition-all duration-300 ease-in-out"
                                 placeholder="Ask Me Anything [ © Sagar Bhusal]"
                                 disabled={typing}
                                 rows={1}
@@ -98,8 +98,8 @@ export default function Home() {
                         </div>
                         <button
                             type="submit"
-                            className={`p-3 rounded-md flex items-center justify-center transition-all duration-300 ease-in-out 
-                            ${typing || (!userPrompt.trim() && !selectedImage) ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"} shadow-md`}
+                            className={`p-3 rounded-lg flex items-center justify-center transition-all duration-300 ease-in-out 
+                            ${typing || (!userPrompt.trim() && !selectedImage) ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"}`}
                             disabled={typing || (!userPrompt.trim() && !selectedImage)}
                         >
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -110,21 +110,21 @@ export default function Home() {
                     </div>
                     {selectedImage && (
                         <div className="mt-2 flex items-start gap-2">
-                            <div className="h-8 w-8 rounded-full bg-gray-600 flex items-center justify-center">
-                                <FiImage className="text-lg text-gray-300" />
+                            <div className="h-8 w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center">
+                                <FiImage className="text-lg text-gray-400" />
                             </div>
                             <div className="relative w-fit">
                                 <img 
                                     src={selectedImage} 
                                     alt="Selected" 
-                                    className="max-h-32 rounded-lg border border-gray-700"
+                                    className="max-h-32 rounded-lg"
                                 />
                                 <button
                                     onClick={() => setSelectedImage(null)}
-                                    className="absolute -top-1.5 -right-1.5 bg-gray-800 rounded-full p-1 hover:bg-gray-700 transition-colors border border-gray-600"
+                                    className="absolute -top-1.5 -right-1.5 bg-[#1a1a1a] rounded-full p-1 hover:bg-[#2c2c2c] transition-colors"
                                     aria-label="Remove image"
                                 >
-                                    <FiX className="text-gray-300 text-sm" />
+                                    <FiX className="text-gray-400 text-sm" />
                                 </button>
                             </div>
                         </div>
