@@ -76,19 +76,21 @@ export default function Home() {
 
     return (
         <div className="h-screen w-screen flex flex-col bg-[#111827] text-white">
-            <div className="flex-1 overflow-y-auto p-4 md:p-6">
-                {history.length > 0 ? <Chats history={history} /> : <InitialUI />}
-                {typing && <Typing typing={typing} />}
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 scroll-smooth">
+                <div className="animate-fade-in">
+                    {history.length > 0 ? <Chats history={history} /> : <InitialUI />}
+                    {typing && <Typing typing={typing} />}
+                </div>
             </div>
 
-            <div className="w-full p-4 bg-[#111827]">
+            <div className="w-full p-4 bg-[#111827] backdrop-blur-lg border-t border-gray-800">
                 <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex flex-col gap-2">
                     <div className="flex items-end gap-2">
                         <ImageUpload 
                             onImageSelect={setSelectedImage} 
                             selectedImage={selectedImage}
                         />
-                        <div className="flex-grow relative">
+                        <div className="flex-grow relative group">
                             <textarea
                                 ref={textareaRef}
                                 autoFocus
@@ -100,7 +102,9 @@ export default function Home() {
                                         handleSubmit(e);
                                     }
                                 }}
-                                className="w-full p-3 rounded-lg bg-[#2c2c2c] text-white outline-none resize-none transition-all duration-300 ease-in-out pr-10"
+                                className="w-full p-3 rounded-lg bg-[#2c2c2c] text-white outline-none resize-none transition-all duration-300 ease-in-out pr-10
+                                         border border-gray-700 focus:border-blue-500 hover:border-gray-600
+                                         shadow-inner group-hover:shadow-lg"
                                 placeholder="Ask Me Anything [ © Sagar Bhusal]"
                                 disabled={typing}
                                 rows={1}
@@ -109,7 +113,8 @@ export default function Home() {
                             <button
                                 type="button"
                                 onClick={handlePaste}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors p-1"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors p-1
+                                         opacity-50 group-hover:opacity-100 hover:scale-110 transform duration-200"
                                 title="Paste Text (Ctrl/Cmd + V)"
                             >
                                 <FiClipboard className="text-xl" />
@@ -118,29 +123,37 @@ export default function Home() {
                         <button
                             type="submit"
                             className={`p-3 rounded-lg flex items-center justify-center transition-all duration-300 ease-in-out 
-                            ${typing || (!userPrompt.trim() && !selectedImage) ? "bg-red-300 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"}`}
+                            transform hover:scale-105 active:scale-95 hover:shadow-lg
+                            ${typing || (!userPrompt.trim() && !selectedImage) 
+                                ? "bg-red-300 cursor-not-allowed opacity-50" 
+                                : "bg-red-600 hover:bg-red-700 shadow-red-500/20"}`}
                             disabled={typing || (!userPrompt.trim() && !selectedImage)}
                         >
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                 className="transform transition-transform duration-200 hover:rotate-12">
                                 <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                 <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </button>
                     </div>
                     {selectedImage && (
-                        <div className="mt-2 flex items-start gap-2">
-                            <div className="h-8 w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center">
+                        <div className="mt-2 flex items-start gap-2 animate-slide-up">
+                            <div className="h-8 w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center
+                                        transform hover:scale-105 transition-transform duration-200">
                                 <FiImage className="text-lg text-gray-400" />
                             </div>
-                            <div className="relative w-fit">
+                            <div className="relative w-fit group">
                                 <img 
                                     src={selectedImage} 
                                     alt="Selected" 
-                                    className="max-h-32 rounded-lg"
+                                    className="max-h-32 rounded-lg transition-transform duration-200 group-hover:scale-[1.02]"
                                 />
                                 <button
                                     onClick={() => setSelectedImage(null)}
-                                    className="absolute -top-1.5 -right-1.5 bg-[#111827] rounded-full p-1 hover:bg-[#2c2c2c] transition-colors"
+                                    className="absolute -top-1.5 -right-1.5 bg-[#111827] rounded-full p-1.5
+                                             hover:bg-[#2c2c2c] transition-all duration-200
+                                             opacity-0 group-hover:opacity-100 hover:scale-110
+                                             transform hover:rotate-90"
                                     aria-label="Remove image"
                                 >
                                     <FiX className="text-gray-400 text-sm" />
