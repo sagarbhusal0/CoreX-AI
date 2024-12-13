@@ -64,13 +64,13 @@ export default function Home() {
     }, [userPrompt]);
 
     return (
-        <div className="h-screen w-screen flex flex-col bg-gray-900 text-white">
+        <div className="h-screen w-screen flex flex-col bg-[#111827] text-white">
             <div className="flex-1 overflow-y-auto p-4 md:p-6">
                 {history.length > 0 ? <Chats history={history} /> : <InitialUI />}
                 {typing && <Typing typing={typing} />}
             </div>
 
-            <div className="w-full p-4 bg-[#1a1a1a]">
+            <div className="w-full p-4 bg-[#111827]">
                 <form onSubmit={handleSubmit} className="max-w-4xl mx-auto flex flex-col gap-2">
                     <div className="flex items-end gap-2">
                         <ImageUpload 
@@ -121,7 +121,7 @@ export default function Home() {
                                 />
                                 <button
                                     onClick={() => setSelectedImage(null)}
-                                    className="absolute -top-1.5 -right-1.5 bg-[#1a1a1a] rounded-full p-1 hover:bg-[#2c2c2c] transition-colors"
+                                    className="absolute -top-1.5 -right-1.5 bg-[#111827] rounded-full p-1 hover:bg-[#2c2c2c] transition-colors"
                                     aria-label="Remove image"
                                 >
                                     <FiX className="text-gray-400 text-sm" />
