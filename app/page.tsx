@@ -203,8 +203,8 @@ export default function Home() {
                             </button>
                         </div>
                         {selectedImage && (
-                            <div className="mt-2 flex items-start gap-2 animate-slide-up overflow-hidden bg-[#2c2c2c] rounded-lg p-2 sm:p-3">
-                                <div className="h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-[#1e1e1e] flex items-center justify-center flex-shrink-0">
+                            <div className="mt-2 flex items-start gap-2 animate-slide-up overflow-hidden rounded-lg p-2 sm:p-3">
+                                <div className="h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center flex-shrink-0">
                                     <FiImage className="text-sm sm:text-lg text-gray-400" />
                                 </div>
                                 <div className="relative min-w-0 flex-1">
@@ -217,10 +217,10 @@ export default function Home() {
                                     </div>
                                     <button
                                         onClick={() => setSelectedImage(null)}
-                                        className="absolute top-0 right-0 bg-[#111827] rounded-full p-1 sm:p-1.5
+                                        className="absolute -top-1 -right-1 bg-[#111827] rounded-full p-1 sm:p-1.5
                                                  hover:bg-[#2c2c2c] transition-colors duration-200
                                                  opacity-0 group-hover:opacity-100 sm:opacity-100
-                                                 z-10 translate-x-1/3 -translate-y-1/3"
+                                                 z-10"
                                         aria-label="Remove image"
                                     >
                                         <FiX className="text-xs sm:text-sm text-gray-400" />
