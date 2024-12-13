@@ -203,30 +203,30 @@ export default function Home() {
                             </button>
                         </div>
                         {selectedImage && (
-                        <div className="mt-2 flex items-start gap-2 animate-slide-up">
-                            <div className="h-8 w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center
-                                        transform hover:scale-105 transition-transform duration-200">
-                                <FiImage className="text-lg text-gray-400" />
-                            </div>
-                            <div className="relative w-fit group">
-                                <img 
-                                    src={selectedImage} 
-                                    alt="Selected" 
-                                    className="max-h-32 rounded-lg transition-transform duration-200 group-hover:scale-[1.02]"
-                                />
-                                <button
-                                    onClick={() => setSelectedImage(null)}
-                                    className="absolute -top-1.5 -right-1.5 bg-[#111827] rounded-full p-1.5
-                                             hover:bg-[#2c2c2c] transition-all duration-200
-                                             opacity-0 group-hover:opacity-100 hover:scale-110
-                                             transform hover:rotate-90"
-                                    aria-label="Remove image"
-                                >
-                                    <FiX className="text-gray-400 text-sm" />
-                                </button>
-                            </div>
-                        </div>
-                    )}
+    <div className="relative mt-2 flex items-start gap-2 animate-slide-up overflow-hidden rounded-lg p-2 sm:p-3">
+        <div className="h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-[#2c2c2c] flex items-center justify-center flex-shrink-0">
+            <FiImage className="text-sm sm:text-lg text-gray-400" />
+        </div>
+        <div className="relative min-w-0 flex-1">
+            <div className="max-w-full overflow-hidden">
+                <img 
+                    src={selectedImage} 
+                    alt="Selected" 
+                    className="max-w-[120px] sm:max-w-[180px] md:max-w-[220px] h-auto rounded-lg object-contain"
+                />
+            </div>
+            <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-1 right-1 bg-[#111827] rounded-full p-1 sm:p-1.5
+                         hover:bg-[#2c2c2c] transition-colors duration-200
+                         opacity-100 z-10" // Set opacity to 100
+                aria-label="Remove image"
+            >
+                <FiX className="text-xs sm:text-sm text-gray-400" />
+            </button>
+        </div>
+    </div>
+)}
                     </form>
                 </div>
             </div>
