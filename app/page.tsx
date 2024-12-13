@@ -217,10 +217,10 @@ export default function Home() {
                                     </div>
                                     <button
                                         onClick={() => setSelectedImage(null)}
-                                        className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-[#111827] rounded-full p-1 sm:p-1.5
+                                        className="absolute top-0 right-0 bg-[#111827] rounded-full p-1 sm:p-1.5
                                                  hover:bg-[#2c2c2c] transition-colors duration-200
                                                  opacity-0 group-hover:opacity-100 sm:opacity-100
-                                                 z-10"
+                                                 z-10 translate-x-1/3 -translate-y-1/3"
                                         aria-label="Remove image"
                                     >
                                         <FiX className="text-xs sm:text-sm text-gray-400" />
